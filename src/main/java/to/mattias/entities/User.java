@@ -13,11 +13,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "users")
-public class User implements Notable {
+public class User extends Notable {
 
-    @Id
-    @GeneratedValue
-    private Long userId;
     private String userFirstName, userSurName, userName, password, email, phone;
     private Date userCreationDate;
     private Role role;
@@ -34,14 +31,6 @@ public class User implements Notable {
         this.phone = phone;
         this.userCreationDate = creationDate;
         this.role = role;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getUserFirstName() {

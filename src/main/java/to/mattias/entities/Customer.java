@@ -10,10 +10,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "customers")
-public class Customer implements Notable {
-    @Id
-    @GeneratedValue
-    private Long customerId;
+public class Customer extends Notable {
+
     private String customerName;
 
     public Customer() {
@@ -21,14 +19,6 @@ public class Customer implements Notable {
 
     public Customer(String customerName) {
         this.customerName = customerName;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
     }
 
     public String getCustomerName() {

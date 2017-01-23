@@ -1,9 +1,6 @@
 package to.mattias.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +9,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "sprints")
-public class Sprint implements Notable {
-    @Id
-    @GeneratedValue
-    private Long sprintId;
+public class Sprint extends Notable {
     private String sprintTitle;
+    @OneToMany
     private List<Task> sprintTasks;
     private Date sprintStartDate, sprintEndDate;
 
@@ -28,14 +23,6 @@ public class Sprint implements Notable {
         this.sprintTasks = sprintTasks;
         this.sprintStartDate = sprintStartDate;
         this.sprintEndDate = endDate;
-    }
-
-    public Long getSprintId() {
-        return sprintId;
-    }
-
-    public void setSprintId(Long sprintId) {
-        this.sprintId = sprintId;
     }
 
     public String getSprintTitle() {

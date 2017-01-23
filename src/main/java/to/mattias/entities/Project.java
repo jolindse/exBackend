@@ -1,9 +1,6 @@
 package to.mattias.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -11,15 +8,16 @@ import java.util.List;
  */
 @Entity
 @Table(name = "projects")
-public class Project implements Notable{
+public class Project extends Notable{
 
-    @Id
-    @GeneratedValue
-    private Long projectId;
     private String projectTitle, projectDescription;
+    @OneToOne
     private Customer projectCustomer;
+    @OneToMany
     private List<Sprint> projectSprints;
+    @OneToMany
     private List<Task> projectTasks;
+    @OneToMany
     private List<User> projectUsers;
 
     public Project() {
@@ -32,14 +30,6 @@ public class Project implements Notable{
         this.projectSprints = sprints;
         this.projectTasks = tasks;
         this.projectUsers = users;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
     }
 
     public String getProjectTitle() {

@@ -1,9 +1,6 @@
 package to.mattias.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +9,12 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tasks")
-public class Task implements Notable {
+public class Task extends Notable {
 
-    @Id
-    @GeneratedValue
-    private Long taskId;
     private String taskTitle, taskDescription;
     private int taskEstimatedTimeH, taskEstimatedTimeM;
     private Date taskStartDate, taskEndDate;
+    @OneToMany
     private List<User> taskAssignedUsers;
 
     public Task() {
@@ -33,14 +28,6 @@ public class Task implements Notable {
         this.taskStartDate = taskStartDate;
         this.taskEndDate = taskEndDate;
         this.taskAssignedUsers = taskAssignedUsers;
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
     }
 
     public String getTaskTitle() {

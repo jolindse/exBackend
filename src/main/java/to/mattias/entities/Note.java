@@ -1,9 +1,6 @@
 package to.mattias.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -17,8 +14,12 @@ public class Note {
     @Id
     @GeneratedValue
     private Long noteId;
+    @OneToMany
     private List<Notable> noteAssignedTo;
+    @OneToMany
     private List<NoteObj> noteData;
+
+    @OneToOne
     private User noteCreator;
 
     public Note() {
