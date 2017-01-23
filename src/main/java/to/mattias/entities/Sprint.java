@@ -1,6 +1,11 @@
 package to.mattias.entities;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +17,7 @@ import java.util.List;
 public class Sprint extends Notable {
     private String sprintTitle;
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<Task> sprintTasks;
     private Date sprintStartDate, sprintEndDate;
 

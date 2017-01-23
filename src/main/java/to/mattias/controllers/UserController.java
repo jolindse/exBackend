@@ -1,9 +1,7 @@
 package to.mattias.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import to.mattias.entities.User;
 import to.mattias.services.UserService;
 
@@ -20,7 +18,28 @@ public class UserController {
     private UserService service;
 
     @GetMapping
-    public List<User> getAll() {
+    public List<User> findAll() {
         return service.findAll();
+    }
+
+    @PostMapping
+    public User createNewUser(@RequestBody User user) {
+        return service.saveUser(user);
+    }
+
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    public User findById(@PathVariable Long userId) {
+        return service.findById(userId);
+    }
+
+    @PutMapping
+    public User update(@RequestBody User user) {
+        return service.update(user);
+    }
+
+    @DeleteMapping
+    @RequestMapping("/{userId}")
+    public void delete(@PathVariable Long userId) {
+        service.delete(userId);
     }
 }

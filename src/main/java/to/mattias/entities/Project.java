@@ -1,6 +1,11 @@
 package to.mattias.entities;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -12,12 +17,16 @@ public class Project extends Notable{
 
     private String projectTitle, projectDescription;
     @OneToOne
+    @Cascade(CascadeType.ALL)
     private Customer projectCustomer;
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<Sprint> projectSprints;
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<Task> projectTasks;
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<User> projectUsers;
 
     public Project() {

@@ -20,4 +20,20 @@ public class UserService {
     public List<User> findAll() {
         return repo.findAll();
     }
+
+    public User saveUser(User user) {
+        return repo.saveAndFlush(user);
+    }
+
+    public User findById(Long userId) {
+        return repo.findOne(userId);
+    }
+
+    public User update(User user) {
+        return repo.saveAndFlush(user);
+    }
+
+    public void delete(Long userId) {
+        repo.delete(userId);
+    }
 }

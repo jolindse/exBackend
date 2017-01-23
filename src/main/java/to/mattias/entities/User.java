@@ -32,6 +32,13 @@ public class User extends Notable {
         this.userCreationDate = creationDate;
         this.role = role;
     }
+    public void setId(Long id) {
+        super.setId(id);
+    }
+
+    public Long getId() {
+        return super.getId();
+    }
 
     public String getUserFirstName() {
         return userFirstName;

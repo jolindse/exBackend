@@ -1,6 +1,11 @@
 package to.mattias.entities;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +20,7 @@ public class Task extends Notable {
     private int taskEstimatedTimeH, taskEstimatedTimeM;
     private Date taskStartDate, taskEndDate;
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<User> taskAssignedUsers;
 
     public Task() {

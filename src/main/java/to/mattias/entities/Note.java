@@ -1,6 +1,11 @@
 package to.mattias.entities;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -15,8 +20,10 @@ public class Note {
     @GeneratedValue
     private Long noteId;
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<Notable> noteAssignedTo;
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<NoteObj> noteData;
 
     @OneToOne

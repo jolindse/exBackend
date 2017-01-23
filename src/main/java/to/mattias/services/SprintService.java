@@ -9,6 +9,7 @@ import to.mattias.repositories.SprintRepository;
  */
 @Service
 public class SprintService {
+
     @Autowired
     private SprintRepository repo;
 
