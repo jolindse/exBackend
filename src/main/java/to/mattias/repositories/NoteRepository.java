@@ -6,5 +6,5 @@ import to.mattias.entities.Note;
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>
  */
-public interface NoteRepository extends JpaRepository<Note, Long> {
+public interface NoteRepository extends JpaRepository<Note, Integer> {
 }

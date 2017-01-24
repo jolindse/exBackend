@@ -25,7 +25,7 @@ public class UserService {
         return repo.saveAndFlush(user);
     }
 
-    public User findById(Long userId) {
+    public User findById(int userId) {
         return repo.findOne(userId);
     }
 
@@ -33,7 +33,7 @@ public class UserService {
         return repo.saveAndFlush(user);
     }
 
-    public void delete(Long userId) {
+    public void delete(int userId) {
         repo.delete(userId);
     }
 }

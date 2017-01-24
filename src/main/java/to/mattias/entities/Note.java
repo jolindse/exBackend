@@ -18,7 +18,7 @@ public class Note {
 
     @Id
     @GeneratedValue
-    private Long noteId;
+    private int noteId;
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Notable> noteAssignedTo;
@@ -38,11 +38,11 @@ public class Note {
         this.noteCreator = noteCreator;
     }
 
-    public Long getNoteId() {
+    public int getNoteId() {
         return noteId;
     }
 
-    public void setNoteId(Long noteId) {
+    public void setNoteId(int noteId) {
         this.noteId = noteId;
     }
 

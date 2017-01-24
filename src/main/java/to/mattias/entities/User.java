@@ -32,11 +32,11 @@ public class User extends Notable {
         this.userCreationDate = creationDate;
         this.role = role;
     }
-    public void setId(Long id) {
+    public void setId(int id) {
         super.setId(id);
     }
 
-    public Long getId() {
+    public int getId() {
         return super.getId();
     }
 

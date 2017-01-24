@@ -20,7 +20,7 @@ public class Task extends Notable {
     private int taskEstimatedTimeH, taskEstimatedTimeM;
     private Date taskStartDate, taskEndDate;
     @OneToMany
-    @Cascade(CascadeType.ALL)
+    @Cascade({CascadeType.REFRESH, CascadeType.MERGE})
     private List<User> taskAssignedUsers;
 
     public Task() {
@@ -90,5 +90,11 @@ public class Task extends Notable {
 
     public void setTaskAssignedUsers(List<User> taskAssignedUsers) {
         this.taskAssignedUsers = taskAssignedUsers;
+    }
+
+    public void removeUser(User user) {
+        if(getTaskAssignedUsers().contains(user)) {
+            removeUser(user);
+        }
     }
 }

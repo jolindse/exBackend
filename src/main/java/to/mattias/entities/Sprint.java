@@ -17,7 +17,7 @@ import java.util.List;
 public class Sprint extends Notable {
     private String sprintTitle;
     @OneToMany
-    @Cascade(CascadeType.ALL)
+    @Cascade({CascadeType.REFRESH, CascadeType.MERGE})
     private List<Task> sprintTasks;
     private Date sprintStartDate, sprintEndDate;
 
@@ -61,5 +61,19 @@ public class Sprint extends Notable {
 
     public void setSprintEndDate(Date sprintEndDate) {
         this.sprintEndDate = sprintEndDate;
+    }
+
+    public void addTask(Task taskToAdd) {
+        this.sprintTasks.add(taskToAdd);
+    }
+
+    public void removeTask(Task taskToRemove) {
+        this.sprintTasks.remove(taskToRemove);
+    }
+
+    public void removeUserFromTasks(User user) {
+        sprintTasks.forEach(task -> {
+            task.removeUser(user);
+        });
     }
 }

@@ -16,7 +16,7 @@ public class NoteObj {
 
     @Id
     @GeneratedValue
-    private Long noteObjId;
+    private int noteObjId;
     private NoteType noteType;
     private String noteObjContent;
 
@@ -28,11 +28,11 @@ public class NoteObj {
         this.noteObjContent = noteObjContent;
     }
 
-    public Long getNoteObjId() {
+    public int getNoteObjId() {
         return noteObjId;
     }
 
-    public void setNoteObjId(Long noteObjId) {
+    public void setNoteObjId(int noteObjId) {
         this.noteObjId = noteObjId;
     }
 

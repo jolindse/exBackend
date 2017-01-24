@@ -24,7 +24,7 @@ public class TaskService {
         return repo.saveAndFlush(task);
     }
 
-    public Task findById(Long taskId) {
+    public Task findById(int taskId) {
         return repo.findOne(taskId);
     }
 
@@ -32,7 +32,7 @@ public class TaskService {
         return save(task);
     }
 
-    public void delete(Long taskId) {
+    public void delete(int taskId) {
         repo.delete(taskId);
     }
 }

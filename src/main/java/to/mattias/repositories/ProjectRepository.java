@@ -6,5 +6,5 @@ import to.mattias.entities.Project;
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>
  */
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, Integer> {
 }

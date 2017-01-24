@@ -11,13 +11,13 @@ public abstract class Notable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+    private int id;
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public int getId() {
         return this.id;
     }
 }

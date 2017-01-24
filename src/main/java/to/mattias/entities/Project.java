@@ -17,7 +17,7 @@ public class Project extends Notable{
 
     private String projectTitle, projectDescription;
     @OneToOne
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.REFRESH)
     private Customer projectCustomer;
     @OneToMany
     @Cascade(CascadeType.ALL)
@@ -26,11 +26,10 @@ public class Project extends Notable{
     @Cascade(CascadeType.ALL)
     private List<Task> projectTasks;
     @OneToMany
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.REFRESH)
     private List<User> projectUsers;
 
-    public Project() {
-    }
+    public Project() { }
 
     public Project(String projectTitle, String description, Customer customer, List<Sprint> sprints, List<Task> tasks, List<User> users) {
         this.projectTitle = projectTitle;
@@ -87,5 +86,29 @@ public class Project extends Notable{
 
     public void setProjectUsers(List<User> projectUsers) {
         this.projectUsers = projectUsers;
+    }
+
+    public void addTask(Task task) {
+        this.projectTasks.add(task);
+    }
+
+    public void removeTask(Task taskToRemove) {
+        this.projectTasks.remove(taskToRemove);
+    }
+
+    public void addUser(User user) {
+        this.projectUsers.add(user);
+    }
+
+    public void removeUser(User user) {
+        if(projectUsers.contains(user)) {
+            projectUsers.remove(user);
+        }
+        projectTasks.forEach(task -> {
+            task.removeUser(user);
+        });
+        projectSprints.forEach(sprint -> {
+            sprint.removeUserFromTasks(user);
+        });
     }
 }

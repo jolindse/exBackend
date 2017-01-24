@@ -1,8 +1,10 @@
 package to.mattias.services;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import to.mattias.entities.Project;
+import to.mattias.entities.Task;
 import to.mattias.repositories.ProjectRepository;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class ProjectService {
         return repo.save(project);
     }
 
-    public Project findById(Long projectId) {
+    public Project findById(int projectId) {
         return repo.findOne(projectId);
     }
 
@@ -32,7 +34,14 @@ public class ProjectService {
         return save(project);
     }
 
-    public void delete(Long projectId) {
+    public void delete(int projectId) {
         repo.delete(projectId);
     }
+
+    public void addTask(int projectId, Task task) {
+        Project project = findById(projectId);
+        project.addTask(task);
+        save(project);
+    }
+
 }

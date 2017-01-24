@@ -3,6 +3,7 @@ package to.mattias.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import to.mattias.entities.Task;
+import to.mattias.services.ProjectService;
 import to.mattias.services.TaskService;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class TaskController {
 
     @Autowired
     private TaskService service;
+    @Autowired
+    private ProjectService projectService;
 
     @GetMapping
     public List<Task> findAll() {
@@ -23,12 +26,15 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task save(@RequestBody Task task) {
-        return service.save(task);
+    @RequestMapping("/{projectId}")
+    public Task save(@PathVariable int projectId, @RequestBody Task task) {
+        Task newTask = service.save(task);
+        projectService.addTask(projectId, newTask);
+        return newTask;
     }
 
     @RequestMapping(value = "/{taskId}", method = RequestMethod.GET)
-    public Task findById(@PathVariable Long taskId) {
+    public Task findById(@PathVariable int taskId) {
         return service.findById(taskId);
     }
 
@@ -39,7 +45,7 @@ public class TaskController {
 
     @DeleteMapping
     @RequestMapping("/{taskId}")
-    public void delete(@PathVariable Long taskId) {
+    public void delete(@PathVariable int taskId) {
         service.delete(taskId);
     }
 }
