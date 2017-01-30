@@ -9,4 +9,5 @@ public class ExBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ExBackendApplication.class, args);
 	}
+
 }

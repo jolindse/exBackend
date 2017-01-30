@@ -2,7 +2,6 @@ package to.mattias.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import to.mattias.beans.Cmd;
 import to.mattias.entities.Project;
 import to.mattias.services.ProjectService;
 

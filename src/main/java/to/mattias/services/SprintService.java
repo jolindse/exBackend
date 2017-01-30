@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import to.mattias.entities.Sprint;
 import to.mattias.entities.Task;
-import to.mattias.repositories.ProjectRepository;
 import to.mattias.repositories.SprintRepository;
 
 /**

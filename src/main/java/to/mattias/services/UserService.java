@@ -1,7 +1,6 @@
 package to.mattias.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Service;
 import to.mattias.entities.User;
 import to.mattias.repositories.UserRepository;
