@@ -1,6 +1,7 @@
 package to.mattias.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import to.mattias.entities.Sprint;
 import to.mattias.services.ProjectService;

@@ -19,7 +19,7 @@ public class Project extends Notable{
     @OneToOne
     @Cascade(CascadeType.REFRESH)
     private Customer projectCustomer;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @Cascade(CascadeType.ALL)
     private List<Sprint> projectSprints;
     @OneToMany
