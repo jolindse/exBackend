@@ -9,6 +9,7 @@ import to.mattias.entities.Task;
  * <h1>Created by Mattias on 2017-01-23.</h1>
  */
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
+    Project findByProjectTitle(String projectTitle);
 
     public Project findByProjectTasks(Task task);
 
