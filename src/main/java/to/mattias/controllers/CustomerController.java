@@ -26,4 +26,15 @@ public class CustomerController {
     public Customer save(@RequestBody Customer customer) {
         return service.save(customer);
     }
+
+    @DeleteMapping
+    @RequestMapping(value = "{customerId}", method = RequestMethod.DELETE)
+    public void deleteCustomer(@PathVariable int customerId) {
+        service.delete(customerId);
+    }
+
+    @PutMapping
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        return service.update(customer);
+    }
 }

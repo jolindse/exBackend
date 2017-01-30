@@ -46,4 +46,8 @@ public class SprintService {
         repo.delete(sprintId);
     }
 
+    public Sprint update(Sprint sprint) {
+        return save(sprint);
+    }
+
 }

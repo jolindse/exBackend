@@ -31,4 +31,15 @@ public class SprintController {
         return service.save(sprint);
     }
 
+    @PutMapping
+    public Sprint updateSprint(@RequestBody Sprint sprint) {
+        return service.update(sprint);
+    }
+
+    @GetMapping
+    @RequestMapping("/{sprintId}")
+    public Sprint getById(@PathVariable int sprintId) {
+        return service.findById(sprintId);
+    }
+
 }

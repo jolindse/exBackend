@@ -22,7 +22,21 @@ public class CustomerService {
         return repo.findAll();
     }
 
+    public Customer findById(int customerId) {
+        return repo.findOne(customerId);
+    }
+
+
     public Customer save(Customer customer) {
         return repo.saveAndFlush(customer);
     }
+
+    public void delete(int customerId) {
+        repo.delete(customerId);
+    }
+
+    public Customer update(Customer customer) {
+        return save(customer);
+    }
+
 }
