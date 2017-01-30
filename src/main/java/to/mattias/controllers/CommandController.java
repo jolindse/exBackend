@@ -103,6 +103,18 @@ public class CommandController {
                 sprintService.save(fromSprint);
                 sprintService.save(toSprint);
                 break;
+
+            case "assignUserToTask":
+                task = taskService.findById((int)currCommand.getPayload()[0]);
+                task.assignUserToTask(userService.findById((int)currCommand.getPayload()[1]));
+                taskService.save(task);
+                break;
+
+            case "removeUserFromTask":
+                task = taskService.findById((int)currCommand.getPayload()[0]);
+                task.removeUser(userService.findById((int)currCommand.getPayload()[1]));
+                taskService.save(task);
+                break;
         }
 
     }

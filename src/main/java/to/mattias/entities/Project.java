@@ -115,4 +115,8 @@ public class Project extends Notable{
     public void removeSprint(Sprint sprint) {
         projectSprints.remove(sprint);
     }
+
+    public void addSprint(Sprint sprint) {
+        projectSprints.add(sprint);
+    }
 }

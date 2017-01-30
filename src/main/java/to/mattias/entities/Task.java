@@ -93,8 +93,12 @@ public class Task extends Notable {
     }
 
     public void removeUser(User user) {
-        if(getTaskAssignedUsers().contains(user)) {
-            removeUser(user);
+        if(taskAssignedUsers.contains(user)) {
+            taskAssignedUsers.remove(user);
         }
+    }
+
+    public void assignUserToTask(User user) {
+        this.taskAssignedUsers.add(user);
     }
 }

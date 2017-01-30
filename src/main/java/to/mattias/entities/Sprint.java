@@ -17,7 +17,7 @@ import java.util.List;
 public class Sprint extends Notable {
     private String sprintTitle;
     @OneToMany
-    @Cascade({CascadeType.REFRESH, CascadeType.MERGE})
+    @Cascade({CascadeType.ALL})
     private List<Task> sprintTasks;
     private Date sprintStartDate, sprintEndDate;
 
