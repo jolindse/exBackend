@@ -9,10 +9,7 @@ import to.mattias.beans.Cmd;
 import to.mattias.entities.Project;
 import to.mattias.entities.Sprint;
 import to.mattias.entities.Task;
-import to.mattias.services.ProjectService;
-import to.mattias.services.SprintService;
-import to.mattias.services.TaskService;
-import to.mattias.services.UserService;
+import to.mattias.services.*;
 
 /**
  * <h1>Created by Mattias on 2017-01-24.</h1>
@@ -29,6 +26,8 @@ public class CommandController {
     private SprintService sprintService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CustomerService customerService;
 
     private Project project;
     private Sprint sprint;
@@ -114,6 +113,18 @@ public class CommandController {
                 task = taskService.findById((int)currCommand.getPayload()[0]);
                 task.removeUser(userService.findById((int)currCommand.getPayload()[1]));
                 taskService.save(task);
+                break;
+
+            case "addCustomerToProject":
+                project = projectService.findById((int)currCommand.getPayload()[0]);
+                project.setProjectCustomer(customerService.findById((int)currCommand.getPayload()[1]));
+                projectService.save(project);
+                break;
+
+            case "removeCustomerFromProject":
+                project = projectService.findById((int)currCommand.getPayload()[0]);
+                project.setProjectCustomer(null);
+                projectService.save(project);
                 break;
         }
 
