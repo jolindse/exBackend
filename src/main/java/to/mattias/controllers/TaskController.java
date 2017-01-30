@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import to.mattias.entities.Task;
 import to.mattias.services.ProjectService;
+import to.mattias.services.SprintService;
 import to.mattias.services.TaskService;
 
 import java.util.List;
@@ -17,6 +18,10 @@ public class TaskController {
 
     @Autowired
     private TaskService service;
+
+    @Autowired
+    private SprintService sprintService;
+
     @Autowired
     private ProjectService projectService;
 
@@ -44,8 +49,14 @@ public class TaskController {
     }
 
     @DeleteMapping
-    @RequestMapping("/{taskId}")
+    @RequestMapping(value = "/{taskId}", method = RequestMethod.DELETE)
     public void delete(@PathVariable int taskId) {
+        Task currTask = service.findById(taskId);
+
+        System.out.println("Task: "+currTask);
+
+        projectService.removeTask(currTask);
+        sprintService.removeTask(currTask);
         service.delete(taskId);
     }
 }

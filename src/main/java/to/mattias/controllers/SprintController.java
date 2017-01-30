@@ -1,8 +1,7 @@
 package to.mattias.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import to.mattias.services.SprintService;
 
 /**
@@ -15,5 +14,10 @@ public class SprintController {
     @Autowired
     private SprintService service;
 
+    @DeleteMapping
+    @RequestMapping(value = "/{sprintId}", method = RequestMethod.DELETE)
+    public void removeSprint(@PathVariable int sprintId) {
+        service.removeSprint(sprintId);
+    }
 
 }

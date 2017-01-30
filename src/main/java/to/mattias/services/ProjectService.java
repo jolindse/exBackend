@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import to.mattias.entities.Project;
+import to.mattias.entities.Sprint;
 import to.mattias.entities.Task;
 import to.mattias.repositories.ProjectRepository;
 
@@ -42,6 +43,24 @@ public class ProjectService {
         Project project = findById(projectId);
         project.addTask(task);
         save(project);
+    }
+
+    public void removeTask(Task task) {
+        Project currProject = repo.findByProjectTasks(task);
+        if (currProject != null) {
+            currProject.removeTask(task);
+            save(currProject);
+        }
+    }
+
+    public int getProjectIdForSprint(Sprint sprint) {
+        return repo.findByProjectSprints(sprint).getId();
+    }
+
+    public void removeSprintFromProject(int projectId, Sprint sprint) {
+        Project currProject = repo.findOne(projectId);
+        currProject.removeSprint(sprint);
+        save(currProject);
     }
 
 }

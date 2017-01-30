@@ -111,4 +111,8 @@ public class Project extends Notable{
             sprint.removeUserFromTasks(user);
         });
     }
+
+    public void removeSprint(Sprint sprint) {
+        projectSprints.remove(sprint);
+    }
 }
