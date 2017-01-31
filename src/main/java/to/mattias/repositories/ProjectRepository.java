@@ -11,6 +11,8 @@ import to.mattias.entities.Task;
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
     Project findByProjectTitle(String projectTitle);
 
+    Project findByProjectDescription(String projectDescription);
+
     public Project findByProjectTasks(Task task);
 
     public Project findByProjectSprints(Sprint sprint);

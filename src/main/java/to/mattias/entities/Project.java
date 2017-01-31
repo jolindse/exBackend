@@ -1,11 +1,13 @@
 package to.mattias.entities;
 
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,20 +18,28 @@ import java.util.List;
 public class Project extends Notable{
 
     private String projectTitle, projectDescription;
+
     @OneToOne
     @Cascade(CascadeType.REFRESH)
     private Customer projectCustomer;
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @OneToMany//(fetch = FetchType.EAGER)
     @Cascade(CascadeType.ALL)
     private List<Sprint> projectSprints;
+
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Task> projectTasks;
-    @OneToMany
-    @Cascade(CascadeType.REFRESH)
+
+    @OneToMany//(fetch = FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     private List<User> projectUsers;
 
-    public Project() { }
+    public Project() {
+        this.projectSprints = new ArrayList<>();
+        this.projectTasks = new ArrayList<>();
+        this.projectUsers = new ArrayList<>();
+    }
 
     public Project(String projectTitle, String description, Customer customer, List<Sprint> sprints, List<Task> tasks, List<User> users) {
         this.projectTitle = projectTitle;
@@ -48,11 +58,11 @@ public class Project extends Notable{
         this.projectTitle = projectTitle;
     }
 
-    public String getDescription() {
+    public String getProjectDescription() {
         return projectDescription;
     }
 
-    public void setDescription(String description) {
+    public void setProjectDescription(String description) {
         this.projectDescription = description;
     }
 

@@ -76,4 +76,27 @@ public class Sprint extends Notable {
             task.removeUser(user);
         });
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Sprint)) return false;
+
+        Sprint sprint = (Sprint) o;
+
+        if (sprintTitle != null ? !sprintTitle.equals(sprint.sprintTitle) : sprint.sprintTitle != null) return false;
+        if (sprintTasks != null ? !sprintTasks.equals(sprint.sprintTasks) : sprint.sprintTasks != null) return false;
+        if (sprintStartDate != null ? !sprintStartDate.equals(sprint.sprintStartDate) : sprint.sprintStartDate != null)
+            return false;
+        return sprintEndDate != null ? sprintEndDate.equals(sprint.sprintEndDate) : sprint.sprintEndDate == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sprintTitle != null ? sprintTitle.hashCode() : 0;
+        result = 31 * result + (sprintTasks != null ? sprintTasks.hashCode() : 0);
+        result = 31 * result + (sprintStartDate != null ? sprintStartDate.hashCode() : 0);
+        result = 31 * result + (sprintEndDate != null ? sprintEndDate.hashCode() : 0);
+        return result;
+    }
 }
