@@ -135,5 +135,13 @@ public class ProjectTest {
     @Test
     public void testRemoveUserFromProject() {
         Project currProject = projectRepository.findByProjectTitle("DefaultProject");
+        User testUser = new User();
+        testUser.setUserFirstName("Mattias");
+        currProject.addUser(testUser);
+        projectRepository.save(currProject);
+        currProject = projectRepository.findByProjectTitle("DefaultProject");
+        currProject.removeUser(testUser);
+        projectRepository.save(currProject);
+        assertFalse(projectRepository.findByProjectTitle("DefaultProject").getProjectUsers().contains(testUser));
     }
 }
