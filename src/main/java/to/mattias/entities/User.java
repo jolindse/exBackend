@@ -105,35 +105,32 @@ public class User extends Notable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
 
-        if (getUserFirstName() != null ? !getUserFirstName().equals(user.getUserFirstName()) : user.getUserFirstName() != null)
+        if (userFirstName != null ? !userFirstName.equals(user.userFirstName) : user.userFirstName != null)
             return false;
-        if (getUserSurName() != null ? !getUserSurName().equals(user.getUserSurName()) : user.getUserSurName() != null)
+        if (userSurName != null ? !userSurName.equals(user.userSurName) : user.userSurName != null) return false;
+        if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
+        if (userCreationDate != null ? !userCreationDate.equals(user.userCreationDate) : user.userCreationDate != null)
             return false;
-        if (getUserName() != null ? !getUserName().equals(user.getUserName()) : user.getUserName() != null)
-            return false;
-        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
-            return false;
-        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
-        if (getPhone() != null ? !getPhone().equals(user.getPhone()) : user.getPhone() != null) return false;
-        if (getUserCreationDate() != null ? !getUserCreationDate().equals(user.getUserCreationDate()) : user.getUserCreationDate() != null)
-            return false;
-        return getRole() == user.getRole();
+        return role == user.role;
     }
 
     @Override
     public int hashCode() {
-        int result = getUserFirstName() != null ? getUserFirstName().hashCode() : 0;
-        result = 31 * result + (getUserSurName() != null ? getUserSurName().hashCode() : 0);
-        result = 31 * result + (getUserName() != null ? getUserName().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
-        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
-        result = 31 * result + (getUserCreationDate() != null ? getUserCreationDate().hashCode() : 0);
-        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        int result = userFirstName != null ? userFirstName.hashCode() : 0;
+        result = 31 * result + (userSurName != null ? userSurName.hashCode() : 0);
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (userCreationDate != null ? userCreationDate.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 }

@@ -20,7 +20,7 @@ public class Project extends Notable{
     private String projectTitle, projectDescription;
 
     @OneToOne
-    @Cascade(CascadeType.REFRESH)
+    @Cascade(CascadeType.ALL)
     private Customer projectCustomer;
 
     @OneToMany//(fetch = FetchType.EAGER)

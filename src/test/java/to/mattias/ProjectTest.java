@@ -1,9 +1,6 @@
 package to.mattias;
 
-import org.hibernate.Hibernate;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +9,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import to.mattias.entities.Customer;
 import to.mattias.entities.Project;
 import to.mattias.entities.Sprint;
 import to.mattias.entities.User;
 import to.mattias.repositories.ProjectRepository;
 
-import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -41,7 +38,6 @@ public class ProjectTest {
 
     @Before
     public void initProjectTests() {
-
         if (!init) {
             Project project = new Project();
             project.setProjectTitle("DefaultProject");
@@ -134,14 +130,40 @@ public class ProjectTest {
 
     @Test
     public void testRemoveUserFromProject() {
-        Project currProject = projectRepository.findByProjectTitle("DefaultProject");
+        // Create a new User
         User testUser = new User();
         testUser.setUserFirstName("Mattias");
+
+        // Fetch a project from the db
+        Project currProject = projectRepository.findByProjectTitle("DefaultProject");
+
+        // Add the user to the project and persist the project
         currProject.addUser(testUser);
         projectRepository.save(currProject);
+
+        // Assert that the user is in the project
         currProject = projectRepository.findByProjectTitle("DefaultProject");
+        assertTrue(currProject.getProjectUsers().contains(testUser));
+
+        // Remove the user from the project
         currProject.removeUser(testUser);
         projectRepository.save(currProject);
         assertFalse(projectRepository.findByProjectTitle("DefaultProject").getProjectUsers().contains(testUser));
+    }
+
+    @Test
+    public void testToAssignCustomerToProject() {
+        // Create a new Customer
+        Customer customer = new Customer();
+        customer.setCustomerName("TestCustomer");
+
+        // Fetch a project from db and add the customer
+        Project currProject = projectRepository.findByProjectTitle("DefaultProject");
+        currProject.setProjectCustomer(customer);
+
+        // Persist the project and assert that the customer is contained in the project
+        projectRepository.save(currProject);
+        assertTrue("The project doesn't contain the customer",
+                projectRepository.findByProjectTitle("DefaultProject").getProjectCustomer().equals(customer));
     }
 }
