@@ -101,4 +101,39 @@ public class User extends Notable {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (getUserFirstName() != null ? !getUserFirstName().equals(user.getUserFirstName()) : user.getUserFirstName() != null)
+            return false;
+        if (getUserSurName() != null ? !getUserSurName().equals(user.getUserSurName()) : user.getUserSurName() != null)
+            return false;
+        if (getUserName() != null ? !getUserName().equals(user.getUserName()) : user.getUserName() != null)
+            return false;
+        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
+        if (getPhone() != null ? !getPhone().equals(user.getPhone()) : user.getPhone() != null) return false;
+        if (getUserCreationDate() != null ? !getUserCreationDate().equals(user.getUserCreationDate()) : user.getUserCreationDate() != null)
+            return false;
+        return getRole() == user.getRole();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUserFirstName() != null ? getUserFirstName().hashCode() : 0;
+        result = 31 * result + (getUserSurName() != null ? getUserSurName().hashCode() : 0);
+        result = 31 * result + (getUserName() != null ? getUserName().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
+        result = 31 * result + (getUserCreationDate() != null ? getUserCreationDate().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        return result;
+    }
 }
