@@ -116,7 +116,7 @@ public class ProjectTest {
         int userListSize = 0;
 
         Project currProject = projectRepository.findByProjectTitle("DefaultProject");
-        currProject.getProjectUsers();
+//        currProject.getProjectUsers();
         userListSize = currProject.getProjectUsers().size();
         User testUser = new User();
         testUser.setUserFirstName("Mattias");
