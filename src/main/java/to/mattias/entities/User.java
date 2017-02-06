@@ -1,7 +1,5 @@
 package to.mattias.entities;
 
-import to.mattias.constants.Role;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
@@ -15,12 +13,12 @@ public class User extends Notable {
 
     private String userFirstName, userSurName, userName, password, email, phone;
     private Date userCreationDate;
-    private Role role;
+
 
     public User() {
     }
 
-    public User(String firstName, String surName, String userName, String password, String email, String phone, Date creationDate, Role role) {
+    public User(String firstName, String surName, String userName, String password, String email, String phone, Date creationDate) {
         this.userFirstName = firstName;
         this.userSurName = surName;
         this.userName = userName;
@@ -28,7 +26,6 @@ public class User extends Notable {
         this.email = email;
         this.phone = phone;
         this.userCreationDate = creationDate;
-        this.role = role;
     }
     public void setId(int id) {
         super.setId(id);
@@ -94,14 +91,6 @@ public class User extends Notable {
         this.userCreationDate = userCreationDate;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -116,9 +105,7 @@ public class User extends Notable {
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
-        if (userCreationDate != null ? !userCreationDate.equals(user.userCreationDate) : user.userCreationDate != null)
-            return false;
-        return role == user.role;
+        return userCreationDate != null ? userCreationDate.equals(user.userCreationDate) : user.userCreationDate == null;
     }
 
     @Override
@@ -130,7 +117,6 @@ public class User extends Notable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (userCreationDate != null ? userCreationDate.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 }

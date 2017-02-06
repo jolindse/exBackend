@@ -1,3 +1,4 @@
+SET FOREIGN_KEY_CHECKS = 0;
 CREATE DATABASE  IF NOT EXISTS `kanban` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `kanban`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
@@ -255,14 +256,13 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `id` int(20) NOT NULL,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
-  `role` int(11) DEFAULT NULL,
   `user_creation_date` datetime DEFAULT NULL,
   `user_first_name` varchar(255) DEFAULT NULL,
-  `user_name` varchar(255) DEFAULT NULL,
+  `user_name` VARCHAR(255) NOT NULL,
   `user_sur_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
