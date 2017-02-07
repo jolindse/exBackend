@@ -10,4 +10,5 @@ import to.mattias.entities.Task;
 public interface SprintRepository extends JpaRepository<Sprint, Integer> {
 
     public Sprint findBySprintTasks(Task task);
+    public Sprint findBySprintTitle(String title);
 }

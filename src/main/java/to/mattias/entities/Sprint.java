@@ -6,6 +6,9 @@ import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +21,11 @@ public class Sprint extends Notable {
     private String sprintTitle;
     @OneToMany
     @Cascade({CascadeType.ALL})
-    private List<Task> sprintTasks;
+    private List<Task> sprintTasks = new ArrayList<>();
     private Date sprintStartDate, sprintEndDate;
+
+    @Transient
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public Sprint() {
     }
@@ -51,16 +57,24 @@ public class Sprint extends Notable {
         return sprintStartDate;
     }
 
-    public void setSprintStartDate(Date sprintStartDate) {
-        this.sprintStartDate = sprintStartDate;
+    public void setSprintStartDate(String dateString) {
+        try {
+            this.sprintStartDate = sdf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public Date getSprintEndDate() {
         return sprintEndDate;
     }
 
-    public void setSprintEndDate(Date sprintEndDate) {
-        this.sprintEndDate = sprintEndDate;
+    public void setSprintEndDate(String dateString) {
+        try {
+            this.sprintEndDate = sdf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addTask(Task taskToAdd) {
