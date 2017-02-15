@@ -1,10 +1,12 @@
 package to.mattias.entities;
 
-import to.mattias.constants.Role;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>
@@ -15,12 +17,16 @@ public class User extends Notable {
 
     private String userFirstName, userSurName, userName, password, email, phone;
     private Date userCreationDate;
-    private Role role;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
+
 
     public User() {
     }
 
     public User(String firstName, String surName, String userName, String password, String email, String phone, Date creationDate, Role role) {
+
         this.userFirstName = firstName;
         this.userSurName = surName;
         this.userName = userName;
@@ -28,8 +34,22 @@ public class User extends Notable {
         this.email = email;
         this.phone = phone;
         this.userCreationDate = creationDate;
-        this.role = role;
+        this.roles.add(role);
     }
+
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void addRoles(Role role) {
+        this.roles.add(role);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+    }
+
     public void setId(int id) {
         super.setId(id);
     }
@@ -94,13 +114,6 @@ public class User extends Notable {
         this.userCreationDate = userCreationDate;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -118,7 +131,8 @@ public class User extends Notable {
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
         if (userCreationDate != null ? !userCreationDate.equals(user.userCreationDate) : user.userCreationDate != null)
             return false;
-        return role == user.role;
+
+        return true;
     }
 
     @Override
@@ -130,7 +144,6 @@ public class User extends Notable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (userCreationDate != null ? userCreationDate.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 }

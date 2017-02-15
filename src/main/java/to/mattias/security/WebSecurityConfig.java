@@ -12,6 +12,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import to.mattias.security.jwt.JWTAuthenticationFilter;
 import to.mattias.security.jwt.JWTLoginFilter;
+import to.mattias.services.UserDetailService;
+import to.mattias.services.UserService;
 
 /**
  * <h1>Created by Mattias on 2017-02-06.</h1>
@@ -21,6 +23,9 @@ import to.mattias.security.jwt.JWTLoginFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DriverManagerDataSource dataSource;
+    @Autowired
+    UserDetailService userDetailService;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,17 +35,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .anyRequest().authenticated()
-                .and()
+                    .and()
                 .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select user_name, password, enabled from users where user_name=?")
-                .authoritiesByUsernameQuery("select role, user_name from user_roles, users where user_id=(" +
-                        "select id from users where user_name = ?)");
+        auth.userDetailsService(userDetailService);
     }
 }
 

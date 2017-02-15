@@ -36,4 +36,7 @@ public class UserService {
         repo.delete(userId);
     }
 
+    public User findByUserName(String username) {
+        return repo.findByUserName(username);
+    }
 }

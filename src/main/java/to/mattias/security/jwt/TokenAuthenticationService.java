@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -28,6 +29,11 @@ public class TokenAuthenticationService {
                 .compact();
 
         response.addHeader(headerString, tokenPrefix + " " + JWT);
+        try {
+            response.getWriter().write(JWT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Authentication getAuthentication(HttpServletRequest request) throws ExpiredJwtException {
