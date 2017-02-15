@@ -2,6 +2,7 @@ package to.mattias.entities;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
+import to.mattias.constants.TaskStatus;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ public class Task extends Notable {
     @OneToMany
     @Cascade({CascadeType.ALL})
     private List<User> taskAssignedUsers = new ArrayList<>();
+    private TaskStatus taskStatus = TaskStatus.TODO;
 
     @Transient
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -110,6 +112,15 @@ public class Task extends Notable {
         if(taskAssignedUsers.contains(user)) {
             taskAssignedUsers.remove(user);
         }
+    }
+
+    public TaskStatus getTaskStatus() {
+        return this.taskStatus;
+    }
+
+    public Task setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
+        return this;
     }
 
     public void assignUserToTask(User user) {

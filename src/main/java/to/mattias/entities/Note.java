@@ -6,6 +6,7 @@ import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,8 @@ public class Note {
     private User noteCreator;
 
     public Note() {
+        this.noteData = new ArrayList<>();
+        this.noteAssignedTo = new ArrayList<>();
     }
 
     public Note(List<Notable> noteAssignedTo, List<NoteObj> noteData, User noteCreator) {
@@ -54,12 +57,20 @@ public class Note {
         this.noteAssignedTo = noteAssignedTo;
     }
 
+    public void addNoteAssignee(Notable assignee) {
+        this.noteAssignedTo.add(assignee);
+    }
+
     public List<NoteObj> getNoteData() {
         return noteData;
     }
 
     public void setNoteData(List<NoteObj> noteData) {
         this.noteData = noteData;
+    }
+
+    public void addNoteData(NoteObj noteObj) {
+        this.noteData.add(noteObj);
     }
 
     public User getNoteCreator() {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import to.mattias.constants.TaskStatus;
 import to.mattias.entities.Task;
 import to.mattias.entities.User;
 import to.mattias.repositories.TaskRepository;
@@ -105,6 +106,15 @@ public class TaskTest {
 		defaultTask = repo.findByTaskTitle("TestTask");
 		defaultTask.removeUser(testUser);
 		assertFalse("Could not remove user", defaultTask.getTaskAssignedUsers().contains(testUser));
+	}
+
+	@Test
+	public void testToChangeTaskStatus() {
+		repo.save(defaultTask);
+		Task currTask = repo.findByTaskTitle("TestTask");
+		currTask.setTaskStatus(TaskStatus.WIP);
+		Task returnedTask = repo.save(currTask);
+		assertTrue("Couldn't change Task Status", returnedTask.getTaskStatus() == TaskStatus.WIP);
 	}
 
 }
