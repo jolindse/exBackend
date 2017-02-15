@@ -21,11 +21,9 @@ import to.mattias.services.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    DriverManagerDataSource dataSource;
+
     @Autowired
     UserDetailService userDetailService;
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
