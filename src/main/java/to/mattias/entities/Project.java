@@ -130,4 +130,34 @@ public class Project extends Notable{
         projectSprints.add(sprint);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+
+        Project project = (Project) o;
+
+        if (getProjectTitle() != null ? !getProjectTitle().equals(project.getProjectTitle()) : project.getProjectTitle() != null)
+            return false;
+        if (getProjectDescription() != null ? !getProjectDescription().equals(project.getProjectDescription()) : project.getProjectDescription() != null)
+            return false;
+        if (getProjectCustomer() != null ? !getProjectCustomer().equals(project.getProjectCustomer()) : project.getProjectCustomer() != null)
+            return false;
+        if (getProjectSprints() != null ? !getProjectSprints().equals(project.getProjectSprints()) : project.getProjectSprints() != null)
+            return false;
+        if (getProjectTasks() != null ? !getProjectTasks().equals(project.getProjectTasks()) : project.getProjectTasks() != null)
+            return false;
+        return getProjectUsers() != null ? getProjectUsers().equals(project.getProjectUsers()) : project.getProjectUsers() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getProjectTitle() != null ? getProjectTitle().hashCode() : 0;
+        result = 31 * result + (getProjectDescription() != null ? getProjectDescription().hashCode() : 0);
+        result = 31 * result + (getProjectCustomer() != null ? getProjectCustomer().hashCode() : 0);
+        result = 31 * result + (getProjectSprints() != null ? getProjectSprints().hashCode() : 0);
+        result = 31 * result + (getProjectTasks() != null ? getProjectTasks().hashCode() : 0);
+        result = 31 * result + (getProjectUsers() != null ? getProjectUsers().hashCode() : 0);
+        return result;
+    }
 }

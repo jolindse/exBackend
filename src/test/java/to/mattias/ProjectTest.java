@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 @Transactional
-@Rollback(false)
+// @Rollback(false)
 
 public class ProjectTest {
 
@@ -38,13 +38,13 @@ public class ProjectTest {
 
     @Before
     public void initProjectTests() {
-        if (!init) {
+        //if (!init) {
             Project project = new Project();
             project.setProjectTitle("DefaultProject");
             project.setProjectDescription("Default description");
             projectRepository.save(project);
             init = true;
-        }
+        //}
     }
 
     @Test
@@ -103,7 +103,12 @@ public class ProjectTest {
 
     @Test
     public void testRemoveSprintFromProject() {
+        Sprint sprint = new Sprint();
+        sprint.setSprintTitle("TestSprint");
         Project currProject = projectRepository.findByProjectTitle("DefaultProject");
+        currProject.addSprint(sprint);
+        projectRepository.save(currProject);
+
         Sprint currSprint = currProject.getProjectSprints().get(0);
         currProject.removeSprint(currSprint);
         projectRepository.save(currProject);
@@ -116,7 +121,6 @@ public class ProjectTest {
         int userListSize = 0;
 
         Project currProject = projectRepository.findByProjectTitle("DefaultProject");
-//        currProject.getProjectUsers();
         userListSize = currProject.getProjectUsers().size();
         User testUser = new User();
         testUser.setUserFirstName("Mattias");
@@ -148,7 +152,7 @@ public class ProjectTest {
         // Remove the user from the project
         currProject.removeUser(testUser);
         projectRepository.save(currProject);
-        assertFalse(projectRepository.findByProjectTitle("DefaultProject").getProjectUsers().contains(testUser));
+        assertFalse("User still assigned to project.",projectRepository.findByProjectTitle("DefaultProject").getProjectUsers().contains(testUser));
     }
 
     @Test
