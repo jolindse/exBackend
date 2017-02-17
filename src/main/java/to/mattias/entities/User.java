@@ -23,10 +23,11 @@ public class User extends Notable {
 
 
     public User() {
+        super();
     }
 
     public User(String firstName, String surName, String userName, String password, String email, String phone, Date creationDate, Role role) {
-
+        super();
         this.userFirstName = firstName;
         this.userSurName = surName;
         this.userName = userName;

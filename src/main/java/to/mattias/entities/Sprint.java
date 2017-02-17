@@ -28,9 +28,11 @@ public class Sprint extends Notable {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public Sprint() {
+        super();
     }
 
     public Sprint(String sprintTitle, List<Task> sprintTasks, Date sprintStartDate, Date endDate) {
+        super();
         this.sprintTitle = sprintTitle;
         this.sprintTasks = sprintTasks;
         this.sprintStartDate = sprintStartDate;

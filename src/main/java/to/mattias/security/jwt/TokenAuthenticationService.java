@@ -32,7 +32,6 @@ public class TokenAuthenticationService {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-
         response.addHeader(headerString, tokenPrefix + " " + JWT);
         try {
             response.getWriter().write(JWT);

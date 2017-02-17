@@ -13,9 +13,11 @@ public class Customer extends Notable {
     private String customerName;
 
     public Customer() {
+        super();
     }
 
     public Customer(String customerName) {
+        super();
         this.customerName = customerName;
     }
 

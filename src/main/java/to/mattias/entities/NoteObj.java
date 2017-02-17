@@ -51,4 +51,24 @@ public class NoteObj {
     public void setNoteObjContent(String noteObjContent) {
         this.noteObjContent = noteObjContent;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NoteObj noteObj = (NoteObj) o;
+
+        if (noteObjId != noteObj.noteObjId) return false;
+        if (noteType != noteObj.noteType) return false;
+        return noteObjContent != null ? noteObjContent.equals(noteObj.noteObjContent) : noteObj.noteObjContent == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = noteObjId;
+        result = 31 * result + (noteType != null ? noteType.hashCode() : 0);
+        result = 31 * result + (noteObjContent != null ? noteObjContent.hashCode() : 0);
+        return result;
+    }
 }

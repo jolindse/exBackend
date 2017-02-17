@@ -32,9 +32,11 @@ public class Task extends Notable {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public Task() {
+        super();
     }
 
     public Task(String taskTitle, String taskDescription, int taskEstimatedTimeH, int taskEstimatedTimeM, Date taskStartDate, Date taskEndDate, List<User> taskAssignedUsers) {
+        super();
         this.taskTitle = taskTitle;
         this.taskDescription = taskDescription;
         this.taskEstimatedTimeH = taskEstimatedTimeH;
