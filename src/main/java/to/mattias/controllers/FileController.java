@@ -12,7 +12,7 @@ import java.io.IOException;
  * <h1>Created by Mattias on 2017-02-18.</h1>
  */
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RequestMapping("/file")
 public class FileController {
 
@@ -29,5 +29,7 @@ public class FileController {
             response.getWriter().write("Oops, something went wrong");
         }
     }
+
+
 }
 

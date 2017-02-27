@@ -1,9 +1,13 @@
 package to.mattias.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * <h1>Created by Mattias on 2017-02-18.</h1>
@@ -11,22 +15,29 @@ import java.io.*;
 @Service
 public class FileService {
 
+    private String fileType;
+
+    @Autowired
+    private Environment env;
+
     private static int counter = 1;
 
     public boolean store(MultipartFile file) {
         String filename = file.getOriginalFilename();
         String originalFilenamePrefix = filename.substring(0, filename.lastIndexOf("."));
+        String fileSuffix = filename.substring(filename.lastIndexOf("."), filename.length());
+        String path = env.getProperty("upload.base.dir") + getFileType(fileSuffix);
+
         boolean ok = false;
         File fileToStore;
 
 
         // Check if the file already exists
         do {
-            fileToStore = new File(filename);
+            fileToStore = new File(path + filename);
             if (fileToStore.exists()) {
                 String filenamePrefix = originalFilenamePrefix + " - " + counter++;
                 filename = filenamePrefix + filename.substring(filename.lastIndexOf("."));
-
             } else {
                 counter = 1;
                 ok = true;
@@ -37,7 +48,7 @@ public class FileService {
         if(!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filename)));
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(path + filename)));
                 bos.write(bytes);
                 bos.close();
             } catch (IOException e) {
@@ -46,5 +57,17 @@ public class FileService {
             }
         }
         return true;
+    }
+
+    private String getFileType(String fileSuffix) {
+        if (fileSuffix.equals(".jpg") || fileSuffix.equals(".gif") ||
+                fileSuffix.equals(".png") || fileSuffix.equals(".JPG") ||
+                fileSuffix.equals(".GIF") || fileSuffix.equals(".PNG")) {
+            fileType = "image";
+            return env.getProperty("upload.image.dir");
+        } else {
+            fileType = "document";
+            return env.getProperty("upload.file.dir");
+        }
     }
 }
