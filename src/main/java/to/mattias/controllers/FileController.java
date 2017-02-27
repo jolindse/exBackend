@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import to.mattias.entities.NoteObj;
 import to.mattias.services.FileService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,14 +24,13 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        if (fileService.store(file)) {
-            return new ResponseEntity<String>("You successfully uploaded " + file.getOriginalFilename(), HttpStatus.OK);
+    public ResponseEntity<NoteObj> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        NoteObj returnObj = fileService.store(file);
+        if (returnObj != null) {
+            return new ResponseEntity<>(returnObj, HttpStatus.OK);
         } else {
-            return new ResponseEntity<String>("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new NoteObj(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }
 
