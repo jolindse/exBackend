@@ -43,6 +43,9 @@ public class TokenAuthenticationService {
 
     public Authentication getAuthentication(HttpServletRequest request) throws ExpiredJwtException {
         String token = request.getHeader(headerString);
+        /*
+        int projectId = Integer.parseInt(request.getRequestURL().substring(request.getRequestURL().lastIndexOf("/")));
+         */
         if (token != null) {
             // Parse the token
             String username = Jwts.parser()
