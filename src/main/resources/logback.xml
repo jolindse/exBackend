@@ -24,8 +24,4 @@
         <appender-ref ref="DB" />
     </logger>
 
-    <!--<root>
-        <level value="info" />
-        <appender-ref ref="DB" />
-    </root>-->
 </configuration>
