@@ -19,15 +19,16 @@ public class AssetsController {
     @RequestMapping(value = "/assets/{dirName}/{fileName:.+}", method = RequestMethod.GET)
     public void serveFile(@PathVariable("dirName") String dirName, @PathVariable("fileName") String fileName, HttpServletResponse response) {
         String baseDir = env.getProperty("upload.base.dir");
-        System.out.println(baseDir + dirName + fileName);
         try {
             InputStream is = new FileInputStream(baseDir + dirName + "\\" + fileName);
             IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (IOException e) {
             e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
