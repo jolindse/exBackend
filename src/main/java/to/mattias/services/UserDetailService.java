@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import to.mattias.entities.User;
 import to.mattias.repositories.UserRepository;
+import to.mattias.security.jwt.AuthenticatedUser;
 
 /**
  * Created by juan on 2017-02-28.
@@ -20,6 +21,6 @@ public class UserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepo.findByUserName(s);
-        return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(),user.getRoles());
+        return new AuthenticatedUser(user);
     }
 }

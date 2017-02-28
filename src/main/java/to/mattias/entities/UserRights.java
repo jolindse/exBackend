@@ -2,7 +2,7 @@ package to.mattias.entities;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
-import to.mattias.constants.UserAction;
+import to.mattias.constants.UserRole;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -20,9 +20,9 @@ public class UserRights {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ElementCollection(targetClass = UserAction.class)
+    @ElementCollection(targetClass = UserRole.class)
     @Cascade(CascadeType.ALL)
-    private List<UserAction> allowedActions = new ArrayList<>();
+    private List<UserRole> allowedActions = new ArrayList<>();
 
     public UserRights() {
     }
@@ -35,23 +35,23 @@ public class UserRights {
         this.id = id;
     }
 
-    public void addAction(UserAction action) {
+    public void addAction(UserRole action) {
         if (!allowedActions.contains(action)) {
             allowedActions.add(action);
         }
     }
 
-    public void removeAction(UserAction action) {
+    public void removeAction(UserRole action) {
         if(allowedActions.contains(action)) {
             allowedActions.remove(action);
         }
     }
 
-    public List<UserAction> getAllowedActions() {
+    public List<UserRole> getAllowedActions() {
         return allowedActions;
     }
 
-    public void setAllowedActions(List<UserAction> allowedActions) {
+    public void setAllowedActions(List<UserRole> allowedActions) {
         this.allowedActions = allowedActions;
     }
 }

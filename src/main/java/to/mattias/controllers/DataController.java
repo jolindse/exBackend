@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import to.mattias.entities.Role;
-import to.mattias.constants.UserAction;
+import to.mattias.constants.UserRole;
 import to.mattias.entities.Project;
 import to.mattias.entities.Task;
 import to.mattias.entities.User;
@@ -33,26 +33,27 @@ public class DataController {
 
     @GetMapping(value="/initdata")
     public String initData() {
-        Role roleAdmin = new Role();
-        Role roleUser = new Role();
-        roleAdmin.setName("ADMIN");
-        roleUser.setName("USER");
 
         User user1 = new User();
         user1.setUserFirstName("Anders");
         user1.setUserSurName("Testsson");
-        user1.setAdmin(true);
+        user1.setMainRole(UserRole.ADMIN);
         user1.setPassword("password");
         user1.setUserName("user1");
-        user1.addRole(roleAdmin);
 
         User user2 = new User();
         user2.setUserFirstName("Lisa");
         user2.setUserSurName("Testlind");
-        user2.setAdmin(false);
+        user2.setMainRole(UserRole.USER);
         user2.setPassword("password");
         user2.setUserName("user2");
-        user2.addRole(roleUser);
+
+        User user3 = new User();
+        user3.setUserFirstName("Anna");
+        user3.setUserSurName("Beställarson");
+        user3.setMainRole(UserRole.CUSTOMER);
+        user3.setPassword("password");
+        user3.setUserName("user3");
 
         Task task1 = new Task();
         Task task2 = new Task();
@@ -77,16 +78,12 @@ public class DataController {
         taskRepo.save(task3);
         taskRepo.save(task4);
 
-        System.out.println("Curr project id: "+project1.getId());
-
-        user2.addRightsForProject(project1.getId(), UserAction.READ);
-        user2.addRightsForProject(project1.getId(), UserAction.CREATE);
-        user2.addRightsForProject(project1.getId(), UserAction.UPDATE);
-
-        System.out.println("Project id list: "+user2.getUserProjectsIds());
+        user2.setProjectRole(project2.getId(),UserRole.USER);
+        user3.setProjectRole(project2.getId(),UserRole.CUSTOMER);
 
         userRepo.save(user1);
         userRepo.save(user2);
+        userRepo.save(user3);
 
         return "ok";
     }

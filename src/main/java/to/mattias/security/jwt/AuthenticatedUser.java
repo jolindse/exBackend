@@ -2,23 +2,63 @@ package to.mattias.security.jwt;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import to.mattias.entities.User;
 
 import java.util.Collection;
 
 /**
  * <h1>Created by Mattias on 2017-02-06.</h1>
  */
-public class AuthenticatedUser implements Authentication {
+
+
+
+public class AuthenticatedUser implements Authentication, UserDetails {
     private String name;
     private boolean authenticated = true;
+    private User currUser;
 
     AuthenticatedUser(String username) {
         this.name = username;
     }
 
+    public AuthenticatedUser(User currUser) {
+        this.currUser = currUser;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.currUser.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.currUser.getUserName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     @Override

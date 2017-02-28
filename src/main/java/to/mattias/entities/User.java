@@ -1,12 +1,11 @@
 package to.mattias.entities;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import to.mattias.constants.UserAction;
+import org.springframework.security.core.GrantedAuthority;
+import to.mattias.constants.UserRole;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.*;
 
 /**
@@ -15,20 +14,16 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class User extends Notable {
+public class User extends Notable implements GrantedAuthority {
 
     private String userFirstName, userSurName, userName, password, email, phone;
     private Date userCreationDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = UserRole.class)
     @Cascade(CascadeType.ALL)
-    private Map<Integer, UserRights> roles = new HashMap<>();
+    private Map<Integer, UserRole> projectRoles = new HashMap<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
-    private List<Role> roleList = new ArrayList<>();
-
-    private boolean admin = false;
+    private UserRole mainRole;
 
     public User() {
     }
@@ -43,50 +38,22 @@ public class User extends Notable {
         this.userCreationDate = creationDate;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public UserRole getMainRole() {
+        return mainRole;
     }
 
-    public List<Role> getRoles() {
-        return this.roleList;
+    public void setMainRole(UserRole mainRole) {
+        this.mainRole = mainRole;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setProjectRole(int projId, UserRole role) {
+        projectRoles.put(projId, role);
     }
 
-    public void addRole(Role role) {
-        this.roleList.add(role);
-    }
-
-    public void removeRole(Role role) {
-        this.roleList.remove(role);
-    }
-
-    public void addRightsForProject(int projId, UserAction action) {
-        if (roles.containsKey(projId)) {
-            UserRights currRights = roles.get(projId);
-            currRights.addAction(action);
-        } else {
-            roles.put(projId, new UserRights());
-            UserRights currRights = roles.get(projId);
-            currRights.addAction(action);
+    public void removeProjectRole(int projId) {
+        if (projectRoles.containsKey(projId)) {
+            projectRoles.remove(projId);
         }
-    }
-
-    public void removeRightsFromProject(int projId, UserAction action) {
-        if (roles.containsKey(projId)) {
-            UserRights currRights = roles.get(projId);
-            currRights.removeAction(action);
-        }
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
     }
 
     public void setId(int id) {
@@ -153,30 +120,30 @@ public class User extends Notable {
         this.userCreationDate = userCreationDate;
     }
 
-    public boolean isAuthorized(int projId, UserAction userAction) {
-        if (this.admin ) {
-          return true;
+    public boolean isAuthorized(int projId, UserRole[] requestedRoles) {
+        if (this.mainRole == UserRole.ADMIN) {
+            return true;
         } else {
-            if (roles.containsKey(projId)) {
-                UserRights currRoles = roles.get(projId);
-                if (currRoles.getAllowedActions().contains(userAction)) {
+            if (projectRoles.containsKey(projId)) {
+                UserRole currRole = projectRoles.get(projId);
+                if (Arrays.asList(requestedRoles).contains(currRole)) {
                     return true;
-                } else {
-                    return false;
                 }
+            } else {
+                return false;
             }
         }
         return false;
     }
 
     public List<Integer> getUserProjectsIds() {
-        if (this.admin) {
-            List currList = new ArrayList<>();
+        if (this.mainRole == UserRole.ADMIN) {
+            List<Integer> currList = new ArrayList<>();
             currList.add(-1);
             return currList;
         }
         List<Integer> projIds = new ArrayList<>();
-        for (Integer key: roles.keySet()) {
+        for (Integer key : projectRoles.keySet()) {
             projIds.add(key);
         }
         return projIds;
@@ -213,5 +180,11 @@ public class User extends Notable {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (userCreationDate != null ? userCreationDate.hashCode() : 0);
         return result;
+    }
+
+
+    @Override
+    public String getAuthority() {
+        return this.mainRole.toString();
     }
 }
