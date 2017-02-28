@@ -1,5 +1,7 @@
 package to.mattias.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,8 @@ public class ProjectController {
 
     @Autowired
     private ProjectService service;
+
+    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
     @GetMapping
     public List<Project> findAll() {
