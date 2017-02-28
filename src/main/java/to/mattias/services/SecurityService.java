@@ -32,23 +32,6 @@ public class SecurityService {
         AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currUser = this.userRepository.findByUserName(user.getName());
 
-        if (Arrays.asList(role).contains(currUser.getMainRole())) {
-            return true;
-        }
-        return false;
-        /*
-        boolean found = false;
-
-        List<Role> roleList = currUser.getRoleList();
-
-        for (int j = 0; j < roleList.size(); j++) {
-            for (int i = 0; i < role.length; i++) {
-                if (roleList.get(j).getName().equals(role[i])) {
-                    found = true;
-                }
-            }
-        }
-        return found;
-        */
+        return Arrays.asList(role).contains(currUser.getMainRole());
     }
 }
