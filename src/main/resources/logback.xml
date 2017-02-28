@@ -20,7 +20,7 @@
     </appender>
 
     <logger name="kanban-logger">
-        <level value="ERR" />
+        <level value="ERROR" />
         <appender-ref ref="DB" />
     </logger>
 
