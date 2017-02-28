@@ -56,7 +56,7 @@ public class FileService {
 
                 // Make a new NoteObj and persist it
                 NoteObj currNoteObj = noteObjService.save(noteObj);
-                currNoteObj.setNoteObjContent("/file/" + path + filename);
+                currNoteObj.setNoteObjContent("/assets/" + getFileType(fileSuffix) + filename);
 
                 return noteObjService.save(currNoteObj);
 
