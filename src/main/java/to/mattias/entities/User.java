@@ -1,16 +1,18 @@
 package to.mattias.entities;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+import to.mattias.constants.UserAction;
+
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>
  */
+
 @Entity
 @Table(name = "users")
 public class User extends Notable {
@@ -19,14 +21,19 @@ public class User extends Notable {
     private Date userCreationDate;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Role> roles = new ArrayList<>();
+    @Cascade(CascadeType.ALL)
+    private Map<Integer, UserRights> roles = new HashMap<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
+    private List<Role> roleList = new ArrayList<>();
+
+    private boolean admin = false;
 
     public User() {
     }
 
-    public User(String firstName, String surName, String userName, String password, String email, String phone, Date creationDate, Role role) {
-
+    public User(String firstName, String surName, String userName, String password, String email, String phone, Date creationDate) {
         this.userFirstName = firstName;
         this.userSurName = surName;
         this.userName = userName;
@@ -34,20 +41,52 @@ public class User extends Notable {
         this.email = email;
         this.phone = phone;
         this.userCreationDate = creationDate;
-        this.roles.add(role);
     }
 
+    public List<Role> getRoleList() {
+        return roleList;
+    }
 
     public List<Role> getRoles() {
-        return roles;
+        return this.roleList;
     }
 
-    public void addRoles(Role role) {
-        this.roles.add(role);
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    public void addRole(Role role) {
+        this.roleList.add(role);
     }
 
     public void removeRole(Role role) {
-        this.roles.remove(role);
+        this.roleList.remove(role);
+    }
+
+    public void addRightsForProject(int projId, UserAction action) {
+        if (roles.containsKey(projId)) {
+            UserRights currRights = roles.get(projId);
+            currRights.addAction(action);
+        } else {
+            roles.put(projId, new UserRights());
+            UserRights currRights = roles.get(projId);
+            currRights.addAction(action);
+        }
+    }
+
+    public void removeRightsFromProject(int projId, UserAction action) {
+        if (roles.containsKey(projId)) {
+            UserRights currRights = roles.get(projId);
+            currRights.removeAction(action);
+        }
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public void setId(int id) {
@@ -112,6 +151,35 @@ public class User extends Notable {
 
     public void setUserCreationDate(Date userCreationDate) {
         this.userCreationDate = userCreationDate;
+    }
+
+    public boolean isAuthorized(int projId, UserAction userAction) {
+        if (this.admin ) {
+          return true;
+        } else {
+            if (roles.containsKey(projId)) {
+                UserRights currRoles = roles.get(projId);
+                if (currRoles.getAllowedActions().contains(userAction)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public List<Integer> getUserProjectsIds() {
+        if (this.admin) {
+            List currList = new ArrayList<>();
+            currList.add(-1);
+            return currList;
+        }
+        List<Integer> projIds = new ArrayList<>();
+        for (Integer key: roles.keySet()) {
+            projIds.add(key);
+        }
+        return projIds;
     }
 
 

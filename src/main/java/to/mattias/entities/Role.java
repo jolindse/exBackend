@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * <h1>Created by Mattias on 2017-01-23.</h1>
+ * Created by juan on 2017-02-28.
  */
 @Entity
 public class Role implements GrantedAuthority{
@@ -19,6 +19,14 @@ public class Role implements GrantedAuthority{
 
     private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String getAuthority() {
         return name;
@@ -27,18 +35,15 @@ public class Role implements GrantedAuthority{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Role)) return false;
 
         Role role = (Role) o;
 
-        if (id != role.id) return false;
-        return name != null ? name.equals(role.name) : role.name == null;
+        return getName() != null ? getName().equals(role.getName()) : role.getName() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return getName() != null ? getName().hashCode() : 0;
     }
 }

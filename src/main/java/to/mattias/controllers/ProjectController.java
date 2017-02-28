@@ -1,13 +1,14 @@
 package to.mattias.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import to.mattias.entities.Project;
+import to.mattias.entities.User;
+import to.mattias.repositories.UserRepository;
+import to.mattias.security.jwt.AuthenticatedUser;
 import to.mattias.services.ProjectService;
 import to.mattias.services.SecurityService;
 
@@ -18,50 +19,51 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/project")
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class ProjectController {
 
     @Autowired
     private ProjectService service;
 
     @Autowired
-    private SecurityService securityService;
+    private UserRepository userRepository;
 
     @GetMapping
-    public List<Project> findAll() {
-        return service.findAll();
+        public List<Project> findAll() {
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currUser = this.userRepository.findByUserName(user.getName());
+        List<Integer> currIds = currUser.getUserProjectsIds();
+        if (currIds.size() > 0 && currIds.get(0) == -1) {
+            return service.findAll();
+        } else if (currIds.size() > 0) {
+            return service.findByIdList(currIds);
+        }
+        return null;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
+    @PreAuthorize("@securityService.hasRole({'USER','ADMIN'})")
     public Project saveProject(@RequestBody Project project) {
         return service.save(project);
     }
 
     @RequestMapping(value = "/{projectId}", method = RequestMethod.GET)
-    public Project findById(@PathVariable int projectId) {
-        if (securityService.hasAuthority(projectId, this.getUsername())) {
-            return service.findById(projectId);
-        }
-        return null;
+    @PreAuthorize("@securityService.hasAuthority(#projectId,UserAction.READ)")
+            public Project findById(@PathVariable int projectId) {
+        return service.findById(projectId);
     }
 
-    @PutMapping
+    @PutMapping(value="/{projectId}")
+    @PreAuthorize("@securityService.hasAuthority(#projectId,UserAction.UPDATE)")
     public Project update(@RequestBody Project project) {
-        if (securityService.hasAuthority(project.getId(), this.getUsername())) {
-            return service.update(project);
-        }
-        return null;
+        return service.update(project);
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/{projectId}")
+    @PreAuthorize("@securityService.hasRole({'ADMIN'})")
     public void delete(@PathVariable int projectId) {
         service.delete(projectId);
     }
 
-    private String getUsername() {
-        User currUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return currUser.getUsername();
-    }
 }

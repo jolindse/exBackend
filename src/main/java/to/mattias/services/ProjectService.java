@@ -7,6 +7,7 @@ import to.mattias.entities.Sprint;
 import to.mattias.entities.Task;
 import to.mattias.repositories.ProjectRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +37,14 @@ public class ProjectService {
 
     public void delete(int projectId) {
         repo.delete(projectId);
+    }
+
+    public List<Project> findByIdList(List<Integer> projIdList) {
+        List<Project> projectList = new ArrayList<>();
+        projIdList.forEach((currId) -> {
+            projectList.add(this.findById(currId));
+        });
+        return projectList;
     }
 
     public void addTask(int projectId, Task task) {

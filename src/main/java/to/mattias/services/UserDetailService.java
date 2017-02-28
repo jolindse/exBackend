@@ -9,16 +9,17 @@ import to.mattias.entities.User;
 import to.mattias.repositories.UserRepository;
 
 /**
- * <h1>Created by Mattias on 2017-02-15.</h1>
+ * Created by juan on 2017-02-28.
  */
 @Service
 public class UserDetailService implements UserDetailsService {
+
     @Autowired
-    private UserRepository repo;
+    private UserRepository userRepo;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = repo.findByUserName(s);
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), user.getRoles());
+        User user = userRepo.findByUserName(s);
+        return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(),user.getRoles());
     }
 }
