@@ -20,9 +20,10 @@ public class Note {
     @Id
     @GeneratedValue
     private int noteId;
-    @OneToMany
-    @Cascade(CascadeType.ALL)
+
+    @ManyToMany
     private List<Notable> noteAssignedTo;
+
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<NoteObj> noteData;
@@ -79,5 +80,28 @@ public class Note {
 
     public void setNoteCreator(User noteCreator) {
         this.noteCreator = noteCreator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Note note = (Note) o;
+
+        if (noteId != note.noteId) return false;
+        if (noteAssignedTo != null ? !noteAssignedTo.equals(note.noteAssignedTo) : note.noteAssignedTo != null)
+            return false;
+        if (noteData != null ? !noteData.equals(note.noteData) : note.noteData != null) return false;
+        return noteCreator != null ? noteCreator.equals(note.noteCreator) : note.noteCreator == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = noteId;
+        result = 31 * result + (noteAssignedTo != null ? noteAssignedTo.hashCode() : 0);
+        result = 31 * result + (noteData != null ? noteData.hashCode() : 0);
+        result = 31 * result + (noteCreator != null ? noteCreator.hashCode() : 0);
+        return result;
     }
 }

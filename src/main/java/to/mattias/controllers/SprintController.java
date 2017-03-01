@@ -7,6 +7,8 @@ import to.mattias.entities.Sprint;
 import to.mattias.services.ProjectService;
 import to.mattias.services.SprintService;
 
+import java.util.List;
+
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>
  */
@@ -41,6 +43,11 @@ public class SprintController {
     @RequestMapping("/{sprintId}")
     public Sprint getById(@PathVariable int sprintId) {
         return service.findById(sprintId);
+    }
+
+    @GetMapping
+    public List<Sprint> getAll() {
+        return service.findAll();
     }
 
 }

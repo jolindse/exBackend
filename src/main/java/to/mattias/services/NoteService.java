@@ -7,7 +7,6 @@ import to.mattias.entities.Note;
 import to.mattias.repositories.NoteRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>
@@ -39,10 +38,7 @@ public class NoteService {
     }
 
     public List<Note> findByNotable(Notable notable) {
-        return repo.findAll().stream()
-            .filter(note -> note.getNoteAssignedTo().contains(notable))
-            .collect(Collectors.toList());
+        return repo.findByNoteAssignedToIn(notable);
     }
-
 
 }

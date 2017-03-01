@@ -13,7 +13,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     Project findByProjectDescription(String projectDescription);
 
-    public Project findByProjectTasks(Task task);
+    Project findByProjectTasks(Task task);
 
     public Project findByProjectSprints(Sprint sprint);
 }

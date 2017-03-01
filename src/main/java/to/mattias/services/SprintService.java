@@ -6,6 +6,8 @@ import to.mattias.entities.Sprint;
 import to.mattias.entities.Task;
 import to.mattias.repositories.SprintRepository;
 
+import java.util.List;
+
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>
  */
@@ -17,6 +19,10 @@ public class SprintService {
 
     @Autowired
     private ProjectService projectService;
+
+    public List<Sprint> findAll() {
+        return repo.findAll();
+    }
 
     public Sprint findById(int sprintId) {
         return repo.findOne(sprintId);

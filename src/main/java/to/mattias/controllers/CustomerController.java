@@ -26,6 +26,11 @@ public class CustomerController {
         return service.findAll();
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Customer findOne(@PathVariable int customerId) {
+        return service.findById(customerId);
+    }
+
     @PostMapping
     @PreAuthorize("@securityService.hasRole('ADMIN')")
     public Customer save(@RequestBody Customer customer) {

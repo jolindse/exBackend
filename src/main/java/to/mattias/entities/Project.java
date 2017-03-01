@@ -36,12 +36,14 @@ public class Project extends Notable{
     private List<User> projectUsers;
 
     public Project() {
+        super();
         this.projectSprints = new ArrayList<>();
         this.projectTasks = new ArrayList<>();
         this.projectUsers = new ArrayList<>();
     }
 
     public Project(String projectTitle, String description, Customer customer, List<Sprint> sprints, List<Task> tasks, List<User> users) {
+        super();
         this.projectTitle = projectTitle;
         this.projectDescription = description;
         this.projectCustomer = customer;
