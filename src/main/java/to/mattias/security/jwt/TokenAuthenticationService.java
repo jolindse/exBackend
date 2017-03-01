@@ -1,6 +1,7 @@
 package to.mattias.security.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -8,6 +9,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import to.mattias.beans.Login;
 import to.mattias.entities.User;
 import to.mattias.services.UserService;
 
@@ -24,6 +27,9 @@ public class TokenAuthenticationService {
     private final String secret = "thisIsASecret";
     private String tokenPrefix = "Bearer";
     private String headerString = "Authorization";
+
+    @Autowired
+    private UserService userService;
 
     public void addAuthentication(HttpServletResponse response, String username) {
         // Generate a token
@@ -42,9 +48,7 @@ public class TokenAuthenticationService {
 
     public Authentication getAuthentication(HttpServletRequest request) throws ExpiredJwtException {
         String token = request.getHeader(headerString);
-        /*
-        int projectId = Integer.parseInt(request.getRequestURL().substring(request.getRequestURL().lastIndexOf("/")));
-         */
+
         if (token != null) {
             // Parse the token
             String username = Jwts.parser()
@@ -54,7 +58,7 @@ public class TokenAuthenticationService {
                     .getSubject();
 
             if (username != null) { // We managed to retrieve a user
-                return new AuthenticatedUser(username);
+                return new AuthenticatedUser(userService.findByUserName(username));
             }
         }
         return null;

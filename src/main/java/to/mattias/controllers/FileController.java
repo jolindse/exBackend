@@ -22,7 +22,6 @@ import java.io.InputStream;
  * <h1>Created by Mattias on 2017-02-18.</h1>
  */
 @RestController
-@CrossOrigin("*")
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class FileController {
 

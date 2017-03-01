@@ -78,10 +78,10 @@ public class NoteTest {
 
         // Create a User to assign the Note to
         User user = new User();
-        user.setUserName("Mattias");
+        user.setUsername("Mattias");
 
         User user2 = new User();
-        user2.setUserName("Johan");
+        user2.setUsername("Johan");
 
         defaultNote.addNoteData(noteObject);
         defaultNote.addNoteAssignee(user);

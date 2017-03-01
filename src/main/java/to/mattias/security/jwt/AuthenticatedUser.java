@@ -11,16 +11,9 @@ import java.util.Collection;
  * <h1>Created by Mattias on 2017-02-06.</h1>
  */
 
-
-
 public class AuthenticatedUser implements Authentication, UserDetails {
-    private String name;
     private boolean authenticated = true;
     private User currUser;
-
-    AuthenticatedUser(String username) {
-        this.name = username;
-    }
 
     public AuthenticatedUser(User currUser) {
         this.currUser = currUser;
@@ -38,7 +31,7 @@ public class AuthenticatedUser implements Authentication, UserDetails {
 
     @Override
     public String getUsername() {
-        return this.currUser.getUserName();
+        return this.currUser.getUsername();
     }
 
     @Override
@@ -88,6 +81,6 @@ public class AuthenticatedUser implements Authentication, UserDetails {
 
     @Override
     public String getName() {
-        return this.name;
+        return this.currUser.getUsername();
     }
 }

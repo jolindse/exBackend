@@ -35,7 +35,7 @@ public class ProjectController {
     @GetMapping
         public List<Project> findAll() {
         AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currUser = this.userRepository.findByUserName(user.getName());
+        User currUser = this.userRepository.findByUsername(user.getName());
         List<Integer> currIds = currUser.getUserProjectsIds();
         if (currIds.size() > 0 && currIds.get(0) == -1) {
             return service.findAll();

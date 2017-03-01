@@ -86,7 +86,7 @@ public class TaskTest {
 	@Test
 	public void testAssignUserToTask() {
 		User testUser = new User();
-		testUser.setUserName("Lars");
+		testUser.setUsername("Lars");
 
 		defaultTask.assignUserToTask(testUser);
 		repo.save(defaultTask);
@@ -98,7 +98,7 @@ public class TaskTest {
 	@Test
 	public void testRemoveAssignedUser() {
 		User testUser = new User();
-		testUser.setUserName("Lars");
+		testUser.setUsername("Lars");
 
 		defaultTask.assignUserToTask(testUser);
 		repo.save(defaultTask);

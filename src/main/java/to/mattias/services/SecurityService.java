@@ -27,13 +27,13 @@ public class SecurityService {
 
     public boolean hasRole(int projId, String accessQualifier) {
         AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currUser = this.userRepository.findByUserName(user.getName());
+        User currUser = this.userRepository.findByUsername(user.getName());
         return currUser.isAuthorized(projId, getRole(accessQualifier));
     }
 
     public boolean hasRole(String accessQualifier) {
         AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currUser = this.userRepository.findByUserName(user.getName());
+        User currUser = this.userRepository.findByUsername(user.getName());
 
         return Arrays.asList(getRole(accessQualifier)).contains(currUser.getMainRole());
     }

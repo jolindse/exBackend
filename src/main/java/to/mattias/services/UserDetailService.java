@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import to.mattias.entities.User;
-import to.mattias.repositories.UserRepository;
 import to.mattias.security.jwt.AuthenticatedUser;
 
 /**
@@ -16,11 +15,15 @@ import to.mattias.security.jwt.AuthenticatedUser;
 public class UserDetailService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepo.findByUserName(s);
-        return new AuthenticatedUser(user);
+        User user = this.userService.findByUserName(s);
+        if (user == null) {
+            throw new UsernameNotFoundException(s + " not found.");
+        } else {
+            return new AuthenticatedUser(user);
+        }
     }
 }

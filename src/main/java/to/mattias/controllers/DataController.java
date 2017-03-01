@@ -38,21 +38,21 @@ public class DataController {
         user1.setUserSurName("Testsson");
         user1.setMainRole(UserRole.ADMIN);
         user1.setPassword("password");
-        user1.setUserName("user1");
+        user1.setUsername("user1");
 
         User user2 = new User();
         user2.setUserFirstName("Lisa");
         user2.setUserSurName("Testlind");
         user2.setMainRole(UserRole.USER);
         user2.setPassword("password");
-        user2.setUserName("user2");
+        user2.setUsername("user2");
 
         User user3 = new User();
         user3.setUserFirstName("Anna");
         user3.setUserSurName("Beställarson");
         user3.setMainRole(UserRole.CUSTOMER);
         user3.setPassword("password");
-        user3.setUserName("user3");
+        user3.setUsername("user3");
 
         Task task1 = new Task();
         Task task2 = new Task();
