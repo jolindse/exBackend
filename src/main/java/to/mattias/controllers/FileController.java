@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import to.mattias.entities.NoteObj;
@@ -21,6 +23,7 @@ import java.io.InputStream;
  */
 @RestController
 @CrossOrigin("*")
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class FileController {
 
     @Autowired
@@ -29,8 +32,9 @@ public class FileController {
     @Autowired
     private Environment env;
 
-    @RequestMapping(value = "/file", method = RequestMethod.POST)
-    public ResponseEntity<NoteObj> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    @RequestMapping(value = "/file/{projectId}", method = RequestMethod.POST)
+    @PreAuthorize("@securityService.hasRole(#projectId,'USERADMIN')")
+    public ResponseEntity<NoteObj> uploadFile(@PathVariable int projectId, @RequestParam("file") MultipartFile file) throws IOException {
         NoteObj returnObj = fileService.store(file);
         if (returnObj != null) {
             return new ResponseEntity<>(returnObj, HttpStatus.OK);
@@ -40,8 +44,9 @@ public class FileController {
         }
     }
 
-    @RequestMapping(value = "/assets/{dirName}/{fileName:.+}", method = RequestMethod.GET)
-    public void serveFile(@PathVariable("dirName") String dirName, @PathVariable("fileName") String fileName, HttpServletResponse response) {
+    @RequestMapping(value = "/assets/{projectId}/{dirName}/{fileName:.+}", method = RequestMethod.GET)
+    @PreAuthorize("@securityService.hasRole(#projectId,'USERADMIN')")
+    public void serveFile(@PathVariable int projectId, @PathVariable("dirName") String dirName, @PathVariable("fileName") String fileName, HttpServletResponse response) {
         String baseDir = env.getProperty("upload.base.dir");
         try {
             InputStream is = new FileInputStream(baseDir + dirName + "\\" + fileName);

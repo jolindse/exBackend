@@ -1,7 +1,5 @@
 package to.mattias.constants;
 
-import org.springframework.security.core.GrantedAuthority;
-
 /**
  * Created by juan on 2017-02-28.
  */

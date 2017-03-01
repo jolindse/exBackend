@@ -1,6 +1,8 @@
 package to.mattias.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import to.mattias.entities.Task;
 import to.mattias.services.ProjectService;
@@ -14,6 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/task")
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class TaskController {
 
     @Autowired
@@ -32,29 +35,30 @@ public class TaskController {
 
     @PostMapping
     @RequestMapping("/{projectId}")
+    @PreAuthorize("@securityService.hasRole(#projectId,'USERADMIN')")
     public Task save(@PathVariable int projectId, @RequestBody Task task) {
         Task newTask = service.save(task);
         projectService.addTask(projectId, newTask);
         return newTask;
     }
 
-    @RequestMapping(value = "/{taskId}", method = RequestMethod.GET)
-    public Task findById(@PathVariable int taskId) {
+    @RequestMapping(value = "/{projectId}/{taskId}", method = RequestMethod.GET)
+    @PreAuthorize("@securityService.hasRole(#projectId,'USERADMIN')")
+    public Task findById(@PathVariable int projectId, @PathVariable int taskId) {
         return service.findById(taskId);
     }
 
-    @PutMapping
-    public Task update(@RequestBody Task task) {
+    @PutMapping(value="/{projectId}")
+    @PreAuthorize("@securityService.hasRole(#projectId,'USERADMIN')")
+    public Task update(@PathVariable int projectId, @RequestBody Task task) {
         return service.update(task);
     }
 
     @DeleteMapping
-    @RequestMapping(value = "/{taskId}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable int taskId) {
+    @RequestMapping(value = "/{projectId}/{taskId}", method = RequestMethod.DELETE)
+    @PreAuthorize("@securityService.hasRole(#projectId,'USERADMIN')")
+    public void delete(@PathVariable int projectId, @PathVariable int taskId) {
         Task currTask = service.findById(taskId);
-
-        System.out.println("Task: "+currTask);
-
         projectService.removeTask(currTask);
         sprintService.removeTask(currTask);
         service.delete(taskId);
