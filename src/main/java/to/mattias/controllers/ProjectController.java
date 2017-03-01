@@ -42,28 +42,29 @@ public class ProjectController {
     }
 
     @PostMapping
-    @PreAuthorize("@securityService.hasRole({UserAction.USER, UserAction.ADMIN})")
+    @PreAuthorize("@securityService.hasRole('USERADMIN')")
     public Project saveProject(@RequestBody Project project) {
         return service.save(project);
     }
 
+    @GetMapping
     @RequestMapping(value = "/{projectId}", method = RequestMethod.GET)
-    @PreAuthorize("@securityService.hasRole(#projectId,{UserAction.USER, UserAction.CUSTOMER, UserAction.ADMIN})")
+    @PreAuthorize("@securityService.hasRole(#projectId,('ALL'))")
             public Project findById(@PathVariable int projectId) {
         return service.findById(projectId);
     }
 
-    @PutMapping(value="/{projectId}")
-    @PreAuthorize("@securityService.hasAuthority(#projectId,{UserAction.USER, UserAction.ADMIN})")
+    @PutMapping
+    @RequestMapping(value="/{projectId}", method = RequestMethod.PUT)
+    @PreAuthorize("@securityService.hasRole(#projectId,('USERADMIN'))")
     public Project update(@PathVariable int projectId, @RequestBody Project project) {
         return service.update(project);
     }
 
     @DeleteMapping
     @RequestMapping("/{projectId}")
-    @PreAuthorize("@securityService.hasRole(#projectId, {UserAction.ADMIN})")
+    @PreAuthorize("@securityService.hasRole(#projectId, ('ADMIN'))")
     public void delete(@PathVariable int projectId) {
         service.delete(projectId);
     }
-
 }

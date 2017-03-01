@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import to.mattias.entities.Role;
 import to.mattias.constants.UserRole;
 import to.mattias.entities.Project;
 import to.mattias.entities.Task;
