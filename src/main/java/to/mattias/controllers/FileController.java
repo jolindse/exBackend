@@ -1,7 +1,5 @@
 package to.mattias.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -33,10 +31,6 @@ public class FileController {
 
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     public ResponseEntity<NoteObj> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-    private final Logger logger = LoggerFactory.getLogger("kanban-logger");
-
-    @PostMapping
-    public ResponseEntity<NoteObj> uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
         NoteObj returnObj = fileService.store(file);
         if (returnObj != null) {
             return new ResponseEntity<>(returnObj, HttpStatus.OK);
@@ -64,4 +58,3 @@ public class FileController {
         }
     }
 }
-
