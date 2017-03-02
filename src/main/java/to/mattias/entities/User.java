@@ -1,5 +1,6 @@
 package to.mattias.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;
@@ -88,6 +89,7 @@ public class User extends Notable implements GrantedAuthority {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

@@ -15,7 +15,7 @@ public abstract class Notable {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Note> notes;
 
     public Notable() {

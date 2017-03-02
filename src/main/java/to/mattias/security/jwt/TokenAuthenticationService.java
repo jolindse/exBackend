@@ -1,5 +1,6 @@
 package to.mattias.security.jwt;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +44,9 @@ public class TokenAuthenticationService {
                 .compact();
         response.addHeader(headerString, tokenPrefix + " " + JWT);
         try {
-            response.getWriter().write(JWT);
+            Login login = new Login(JWT, userService.findByUserName(username));
+            ObjectMapper om = new ObjectMapper();
+            response.getWriter().write(om.writeValueAsString(login));
         } catch (IOException e) {
             e.printStackTrace();
         }

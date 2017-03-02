@@ -1,18 +1,15 @@
 package to.mattias.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import to.mattias.security.jwt.JWTAuthenticationFilter;
@@ -20,11 +17,13 @@ import to.mattias.security.jwt.JWTLoginFilter;
 import to.mattias.security.jwt.TokenAuthenticationService;
 import to.mattias.services.UserDetailService;
 
-import java.util.Arrays;
-
 /**
- * <h1>Created by Mattias on 2017-02-06.</h1>
+ * Configures the security layer.
+ *
+ * Adds JWT checks on all endpoints except login.
+ * Disabels cors for access from all domains.
  */
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
