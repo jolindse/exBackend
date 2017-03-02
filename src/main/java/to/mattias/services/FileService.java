@@ -23,7 +23,7 @@ public class FileService {
 
     private static int counter = 1;
 
-    public NoteObj store(MultipartFile file) {
+    public NoteObj store(int projectId, MultipartFile file) {
         String filename = file.getOriginalFilename();
         String originalFilenamePrefix = filename.substring(0, filename.lastIndexOf("."));
         String fileSuffix = filename.substring(filename.lastIndexOf("."), filename.length());
@@ -56,7 +56,7 @@ public class FileService {
 
                 // Make a new NoteObj and persist it
                 NoteObj currNoteObj = noteObjService.save(noteObj);
-                currNoteObj.setNoteObjContent("/assets/" + getFileType(fileSuffix) + filename);
+                currNoteObj.setNoteObjContent("/assets/" + projectId + "/" + getFileType(fileSuffix) + filename);
 
                 return noteObjService.save(currNoteObj);
 
