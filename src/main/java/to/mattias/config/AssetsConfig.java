@@ -19,7 +19,6 @@ public class AssetsConfig extends WebMvcConfigurerAdapter {
     @Autowired
     public AssetsConfig(@Value("${upload.base.dir}") String baseDir) {
         this.assetsBaseDir = baseDir;
-        System.out.println(assetsBaseDir);
     }
 
     /**

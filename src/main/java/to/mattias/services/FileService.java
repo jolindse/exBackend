@@ -4,17 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import to.mattias.constants.NoteType;
 import to.mattias.entities.NoteObj;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 
 /**
  * <h1>Created by Mattias on 2017-02-18.</h1>
+ *
+ * Stores an uploaded file to disk and creates a new
+ * NoteObject and persists it in the db.
+ *
  */
 @Service
 public class FileService {
@@ -40,49 +42,62 @@ public class FileService {
         this.uploadFileDir = fileDir;
     }
 
-    /**
-     * Stores an uploaded file to disk and creates a new
-     * NoteObject and persists it in the db.
-     *
-     * @param projectId An id to identify the project to which the file belongs
-     * @param file The uploaded file
-     * @return A new NoteObject
-     */
+
     public NoteObj store(int projectId, MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
+
         // Set a unique filename for the file to be stored
         String filename = String.valueOf(System.currentTimeMillis());
 
         // Get the file-type
         String fileSuffix = originalFilename.substring(
                 originalFilename.lastIndexOf("."), originalFilename.length());
+
         // Sets the path where to store the file
-        String path = String.format("%s%s/%s/%s%s", uploadBaseDir, projectId, getFileType(fileSuffix), filename, fileSuffix);
+        String filePath = String.format("%s%s/%s/%s%s", uploadBaseDir, projectId, getFileType(fileSuffix), filename, fileSuffix);
 
-        File fileToStore = new File(path);
+        // Gets the path to the file to be stored
+        String path = filePath.substring(0, filePath.lastIndexOf("/"));
 
-        // If the file contains data, write it to disk
-        if(!file.isEmpty()) {
+        // Store the file if the path exists, otherwise create the dirs
+        if(new File(path).exists()) {
+           return storeFile(file, filePath, projectId, fileSuffix, filename);
+        } else {
+            new File(path).mkdirs();
+            return storeFile(file, filePath, projectId, fileSuffix, filename);
+        }
+    }
+
+    /**
+     * Stores the uploaded file to disk
+     * @param file
+     * @param filePath
+     * @param projectId
+     * @param fileSuffix
+     * @param filename
+     * @return The newly created NoteObject
+     */
+    private NoteObj storeFile(MultipartFile file, String filePath,
+                              int projectId, String fileSuffix, String filename) {
+
+        // Check if the uploaded file is empty, if not store it
+        if (!file.isEmpty()) {
             try {
-                file.transferTo(fileToStore);
+                file.transferTo(new File(filePath));
                 NoteObj noteObj = new NoteObj();
                 noteObj.setNoteType(type);
-
-                // Make a new NoteObj and persist it
-                NoteObj currNoteObj = noteObjService.save(noteObj);
-                currNoteObj.setNoteObjContent(
-                        String.format("/assets/%d/%s%s%s", projectId, getFileType(fileSuffix), filename, fileSuffix));
-
-                return noteObjService.save(currNoteObj);
-
+                noteObj.setNoteObjContent(
+                        String.format("/assets/%d/%s%s%s", projectId,
+                                getFileType(fileSuffix), filename, fileSuffix));
+                return noteObjService.save(noteObj);
             } catch (IOException e) {
-                logger.error(String.format("Failed to store file on disk: %s", fileToStore));
-                // TODO: Remove printStackTrace
-                e.printStackTrace();
+                logger.error("Failed to store file on disk");
                 return null;
             }
+        } else {
+            logger.error("Failed to store file - File is empty");
+            return null;
         }
-        return null;
     }
 
     /**
