@@ -43,7 +43,7 @@ public class FileService {
     }
 
 
-    public NoteObj store(int projectId, MultipartFile file) {
+    public NoteObj store(int projectId, MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
 
         // Set a unique filename for the file to be stored
@@ -78,11 +78,10 @@ public class FileService {
      * @return The newly created NoteObject
      */
     private NoteObj storeFile(MultipartFile file, String filePath,
-                              int projectId, String fileSuffix, String filename) {
+                              int projectId, String fileSuffix, String filename) throws IOException {
 
         // Check if the uploaded file is empty, if not store it
         if (!file.isEmpty()) {
-            try {
                 file.transferTo(new File(filePath));
                 NoteObj noteObj = new NoteObj();
                 noteObj.setNoteType(type);
@@ -90,13 +89,8 @@ public class FileService {
                         String.format("/assets/%d/%s%s%s", projectId,
                                 getFileType(fileSuffix), filename, fileSuffix));
                 return noteObjService.save(noteObj);
-            } catch (IOException e) {
-                logger.error("Failed to store file on disk", e);
-                return null;
-            }
         } else {
-            logger.error("Failed to store file - File is empty");
-            return null;
+            throw new IOException();
         }
     }
 

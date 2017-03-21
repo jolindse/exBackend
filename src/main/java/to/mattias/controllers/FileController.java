@@ -28,12 +28,12 @@ public class FileController {
 
     @RequestMapping(value = "/file/{projectId}", method = RequestMethod.POST)
     @PreAuthorize("@securityService.hasRole(#projectId,'USERADMIN')")
-    public ResponseEntity<NoteObj> uploadFile(@PathVariable int projectId, @RequestParam("file") MultipartFile file) throws IOException {
-        NoteObj returnObj = fileService.store(projectId, file);
-        if (returnObj != null) {
+    public ResponseEntity<NoteObj> uploadFile(@PathVariable int projectId, @RequestParam("file") MultipartFile file) {
+        try {
+            NoteObj returnObj = fileService.store(projectId, file);
             return new ResponseEntity<>(returnObj, HttpStatus.OK);
-        } else {
-            logger.error("Failed to upload resource");
+        } catch (IOException e) {
+            logger.error(String.format("Failed to upload file - %s", e.getMessage()));
             return new ResponseEntity<>(new NoteObj(), HttpStatus.NO_CONTENT);
         }
     }

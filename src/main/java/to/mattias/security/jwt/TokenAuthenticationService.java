@@ -45,25 +45,24 @@ public class TokenAuthenticationService {
             ObjectMapper om = new ObjectMapper();
             response.getWriter().write(om.writeValueAsString(login));
         } catch (IOException e) {
-            logger.error("Login - Failed to return Authorization-token", e);
+            logger.error(String.format("Login Error - %s", e.getMessage()));
         }
     }
 
     public Authentication getAuthentication(HttpServletRequest request) throws ExpiredJwtException {
         String token = request.getHeader(headerString);
+            if (token != null) {
+                // Parse the token
+                String username = Jwts.parser()
+                        .setSigningKey(secret)
+                        .parseClaimsJws(token)
+                        .getBody()
+                        .getSubject();
 
-        if (token != null) {
-            // Parse the token
-            String username = Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-
-            if (username != null) { // We managed to retrieve a user
-                return new AuthenticatedUser(userService.findByUserName(username));
+                if (username != null) { // We managed to retrieve a user
+                    return new AuthenticatedUser(userService.findByUserName(username));
+                }
             }
-        }
         return null;
     }
 }

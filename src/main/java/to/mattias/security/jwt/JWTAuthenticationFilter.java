@@ -1,5 +1,8 @@
 package to.mattias.security.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,15 +22,21 @@ import java.io.IOException;
 @Component
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
+    private Logger logger = LoggerFactory.getLogger("kanban-logger");
+
     @Autowired
     private TokenAuthenticationService tokenAuthenticationService;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        Authentication authentication = tokenAuthenticationService.getAuthentication((HttpServletRequest)request);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) {
+        try {
+            Authentication authentication = tokenAuthenticationService.getAuthentication((HttpServletRequest)request);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        filterChain.doFilter(request,response);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(request,response);
+        } catch (IOException | ServletException | ExpiredJwtException e) {
+            logger.error(String.format("Error - %s", e.getMessage()));
+        }
     }
 }
 
