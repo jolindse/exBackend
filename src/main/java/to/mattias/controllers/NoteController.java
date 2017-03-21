@@ -1,14 +1,12 @@
 package to.mattias.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import to.mattias.entities.Note;
 import to.mattias.services.NoteService;
 
-import java.util.List;
 
 /**
  * <h1>Created by Mattias on 2017-01-23.</h1>

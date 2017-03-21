@@ -1,7 +1,5 @@
 package to.mattias.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,7 +10,6 @@ import to.mattias.entities.User;
 import to.mattias.repositories.UserRepository;
 import to.mattias.security.jwt.AuthenticatedUser;
 import to.mattias.services.ProjectService;
-import to.mattias.services.SecurityService;
 
 import java.util.List;
 
@@ -26,8 +23,6 @@ public class ProjectController {
 
     @Autowired
     private ProjectService service;
-
-    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
     @Autowired
     private UserRepository userRepository;

@@ -70,11 +70,11 @@ public class FileService {
 
     /**
      * Stores the uploaded file to disk
-     * @param file
-     * @param filePath
-     * @param projectId
-     * @param fileSuffix
-     * @param filename
+     * @param file The uploaded file to store
+     * @param filePath Where to store the file
+     * @param projectId Id of project that the file belongs to
+     * @param fileSuffix The ending of the file
+     * @param filename The name of the file
      * @return The newly created NoteObject
      */
     private NoteObj storeFile(MultipartFile file, String filePath,
@@ -91,7 +91,7 @@ public class FileService {
                                 getFileType(fileSuffix), filename, fileSuffix));
                 return noteObjService.save(noteObj);
             } catch (IOException e) {
-                logger.error("Failed to store file on disk");
+                logger.error("Failed to store file on disk", e);
                 return null;
             }
         } else {

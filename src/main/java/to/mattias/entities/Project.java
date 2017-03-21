@@ -1,6 +1,5 @@
 package to.mattias.entities;
 
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 

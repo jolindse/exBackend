@@ -1,20 +1,15 @@
 package to.mattias.security.jwt;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowire;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import to.mattias.beans.Login;
-import to.mattias.entities.User;
 import to.mattias.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +27,8 @@ public class TokenAuthenticationService {
     private String tokenPrefix = "Bearer";
     private String headerString = "Authorization";
 
+    private Logger logger = LoggerFactory.getLogger("kanban-logger");
+
     @Autowired
     private UserService userService;
 
@@ -48,7 +45,7 @@ public class TokenAuthenticationService {
             ObjectMapper om = new ObjectMapper();
             response.getWriter().write(om.writeValueAsString(login));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Login - Failed to return Authorization-token", e);
         }
     }
 

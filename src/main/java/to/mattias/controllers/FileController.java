@@ -31,7 +31,6 @@ public class FileController {
     public ResponseEntity<NoteObj> uploadFile(@PathVariable int projectId, @RequestParam("file") MultipartFile file) throws IOException {
         NoteObj returnObj = fileService.store(projectId, file);
         if (returnObj != null) {
-            logger.warn(String.format("Uploaded %s", returnObj.getNoteObjContent()));
             return new ResponseEntity<>(returnObj, HttpStatus.OK);
         } else {
             logger.error("Failed to upload resource");
