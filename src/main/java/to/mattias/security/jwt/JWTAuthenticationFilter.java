@@ -35,6 +35,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request,response);
         } catch (IOException | ServletException | ExpiredJwtException e) {
+            e.printStackTrace();
             logger.error(String.format("Error - %s", e.getMessage()));
         }
     }

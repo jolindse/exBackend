@@ -21,7 +21,6 @@ import java.io.*;
 @Service
 public class FileService {
 
-    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
     private NoteType type;
 

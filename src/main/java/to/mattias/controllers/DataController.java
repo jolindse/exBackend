@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import to.mattias.constants.UserRole;
 import to.mattias.entities.Project;
+import to.mattias.entities.Sprint;
 import to.mattias.entities.Task;
 import to.mattias.entities.User;
 import to.mattias.repositories.ProjectRepository;
@@ -64,10 +65,16 @@ public class DataController {
         task3.setTaskTitle("Task 3");
         task4.setTaskTitle("Task 4");
 
+        Sprint sprint1 = new Sprint();
+        sprint1.addTask(task1);
+        sprint1.setSprintTitle("Sprint 1");
+
         Project proj1 = new Project();
         proj1.setProjectTitle("Proj 1");
         Project proj2 = new Project();
         proj2.setProjectTitle("Proj 2");
+
+        proj1.addSprint(sprint1);
 
         Project project1 = projRepo.save(proj1);
         Project project2 = projRepo.save(proj2);
