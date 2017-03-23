@@ -106,17 +106,16 @@ public class NoteService {
      * @param notableId id of the entity
      * @return Notable
      */
-    private Notable getNotable(int notableId) {
+    private void getNotable(int notableId) {
 
         JpaRepository[] repos = {customerRepo, projectRepo, sprintRepo, taskRepo, userRepo};
 
         for (int i = 0; i < repos.length; i++) {
-            notable =  (Notable) repos[i].findOne(notableId);
+            notable = (Notable) repos[i].findOne(notableId);
             if(notable != null) {
                 break;
             }
         }
-        return notable;
     }
 
     /**
