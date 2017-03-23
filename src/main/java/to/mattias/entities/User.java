@@ -20,7 +20,7 @@ public class User extends Notable implements GrantedAuthority {
     private String userFirstName, userSurName, username, password, email, phone;
     private Date userCreationDate;
 
-    @ElementCollection(targetClass = UserRole.class)
+    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @Cascade(CascadeType.ALL)
     private Map<Integer, UserRole> projectRoles = new HashMap<>();
 

@@ -24,20 +24,11 @@ public class NoteService {
     @Autowired
     private NoteRepository noteRepo;
     @Autowired
-    private CustomerRepository customerRepo;
-    @Autowired
-    private ProjectRepository projectRepo;
-    @Autowired
-    private SprintRepository sprintRepo;
-    @Autowired
-    private TaskRepository taskRepo;
-    @Autowired
-    private UserRepository userRepo;
-    @Autowired
     private FileService fileService;
+    @Autowired
+    private NotableRepository notableRepo;
 
     private Notable notable;
-    private User noteCreator;
 
     public List<Note> findAll() {
         return noteRepo.findAll();
@@ -59,72 +50,73 @@ public class NoteService {
         noteRepo.delete(noteId);
     }
 
-    public List<Note> findByNotable(Notable notable) {
-        return noteRepo.findByNoteAssignedToIn(notable);
-    }
 
-    public Note newNoteWithFile(int projectId, int notableId,
+    /**
+     * Persists a note with attached file
+     *
+     * @param notableId - The entity that is noted
+     * @param file - Uploaded file
+     * @param creatorId - Id of the user that made the note
+     * @return The newly persisted Note-object
+     */
+    public Note newNoteWithFile(int notableId,
                                 MultipartFile file, int creatorId) {
 
         getNotable(notableId);
-        getCreator(creatorId);
 
         Note noteToCreate = new Note();
-        noteToCreate.addNoteAssignee(notable);
-        noteToCreate.setNoteCreator(noteCreator);
+        noteToCreate.setNoteCreator(creatorId);
 
         try {
-            NoteObj noteObj = fileService.store(projectId, file);
+            NoteObj noteObj = fileService.store(notableId, file);
             noteToCreate.addNoteData(noteObj);
-            return noteRepo.save(noteToCreate);
+            return saveNote(noteToCreate, notable);
         } catch (IOException e) {
             logger.error(String.format("File upload error - %s", e.getMessage()));
         }
         return null;
     }
 
+    /**
+     * Persists a note without an attached file
+     *
+     * @param notableId - The entity that is noted
+     * @param noteType - Type of note
+     * @param content - String that represents the note content
+     * @param creatorId - Id of the user that made the note
+     * @return The newly persisted Note-object
+     */
     public Note newNoteWithoutFile(int notableId, NoteType noteType,
                                    String content, int creatorId) {
 
         getNotable(notableId);
-        getCreator(creatorId);
 
         Note noteToCreate = new Note();
         NoteObj noteObj = new NoteObj();
 
         noteObj.setNoteType(noteType);
         noteObj.setNoteObjContent(content);
-        noteToCreate.addNoteAssignee(notable);
-        noteToCreate.setNoteCreator(noteCreator);
+        noteToCreate.setNoteCreator(creatorId);
+        noteToCreate.addNoteData(noteObj);
 
-        return noteRepo.save(noteToCreate);
+        return saveNote(noteToCreate, notable);
     }
 
     /**
-     * Gets the Notable that the note belongs to
+     * Gets the Notable that the note belongs to and determines which repository to use
+     * when updating the notable
      *
      * @param notableId id of the entity
-     * @return Notable
+     *
      */
     private void getNotable(int notableId) {
-
-        JpaRepository[] repos = {customerRepo, projectRepo, sprintRepo, taskRepo, userRepo};
-
-        for (int i = 0; i < repos.length; i++) {
-            notable = (Notable) repos[i].findOne(notableId);
-            if(notable != null) {
-                break;
-            }
-        }
+        notable = notableRepo.findOne(notableId);
     }
 
-    /**
-     * Gets the User that created the Note
-     *
-     * @param creatorId User id
-     * @return User
-     */
-    private void getCreator(int creatorId) {
-        noteCreator = userRepo.findOne(creatorId);
+    private Note saveNote(Note noteToSave, Notable notable) {
+        Note currNote = noteRepo.save(noteToSave);
+        notable.addNote(currNote);
+        notableRepo.save(notable);
+        return currNote;
     }
 }

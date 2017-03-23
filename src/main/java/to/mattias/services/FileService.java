@@ -1,7 +1,5 @@
 package to.mattias.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,7 +40,7 @@ public class FileService {
     }
 
 
-    public NoteObj store(int projectId, MultipartFile file) throws IOException {
+    public NoteObj store(int notableId, MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
 
         // Set a unique filename for the file to be stored
@@ -53,17 +51,17 @@ public class FileService {
                 originalFilename.lastIndexOf("."), originalFilename.length());
 
         // Sets the path where to store the file
-        String filePath = String.format("%s%s/%s/%s%s", uploadBaseDir, projectId, getFileType(fileSuffix), filename, fileSuffix);
+        String filePath = String.format("%s%s/%s/%s%s", uploadBaseDir, notableId, getFileType(fileSuffix), filename, fileSuffix);
 
         // Gets the path to the file to be stored
         String path = filePath.substring(0, filePath.lastIndexOf("/"));
 
         // Store the file if the path exists, otherwise create the dirs
         if(new File(path).exists()) {
-           return storeFile(file, filePath, projectId, fileSuffix, filename);
+           return storeFile(file, filePath, notableId, fileSuffix, filename);
         } else {
             new File(path).mkdirs();
-            return storeFile(file, filePath, projectId, fileSuffix, filename);
+            return storeFile(file, filePath, notableId, fileSuffix, filename);
         }
     }
 

@@ -161,4 +161,16 @@ public class Project extends Notable{
         result = 31 * result + (getProjectUsers() != null ? getProjectUsers().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectTitle='" + projectTitle + '\'' +
+                ", projectDescription='" + projectDescription + '\'' +
+                ", projectCustomer=" + projectCustomer +
+                ", projectSprints=" + projectSprints +
+                ", projectTasks=" + projectTasks +
+                ", projectUsers=" + projectUsers +
+                '}';
+    }
 }
