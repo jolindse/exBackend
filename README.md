@@ -1,6 +1,6 @@
 # exBackend
 
-##Branch Docker
+## Branch Docker
 - To install and run a MySQL docker image, please run:
 <br><code>docker run --name mysql -d -e MYSQL_ROOT_PASSWORD=kanban -p 3306:3306 mysql</code>
 - To initialize the DB, please run:<br>
