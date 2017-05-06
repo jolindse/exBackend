@@ -116,7 +116,7 @@
 				<configuration>
 					<imageName>ex-backend</imageName>
 					<baseImage>java</baseImage>
-					<expose>8080</expose>
+					<exposes>8080</exposes>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 					<resources>
 						<resource>
