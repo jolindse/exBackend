@@ -1,5 +1,6 @@
 package to.mattias;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import to.mattias.CustomerTest;
@@ -11,6 +12,7 @@ import to.mattias.TaskTest;
  * Created by juan on 2017-02-15.
  */
 
+@Ignore
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CustomerTest.class,
