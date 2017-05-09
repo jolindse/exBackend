@@ -1,17 +1,10 @@
 # exBackend
 
 ## Branch Docker
-- To install and run a MySQL docker image, please run:
-<br><code>docker run --name mysql -d -e MYSQL_ROOT_PASSWORD=kanban -p 3306:3306 mysql</code>
-- To initialize the DB, please run:<br>
-<code>mvn flyway:migrate</code>
-- To build the exBackend docker image, please run:<br>
-<code>sudo mvn clean package -DskipTests</code>
-- To run the exBackend docker image, please run:
-<br><code>docker run --name exbackend -d -p 8080:8080 ex-backend</code>
 
-### Issues
-Something is wrong with the logger configuration src/main/resources/logback.xml
-<p>If you want to run the application by <code>mvn spring-boot:run</code> it works to connect to the dockerized db, but you have to remove all the tables first in order to get flyway migration to work.
-
-
+<strong>Updated 2017-05-09</strong><br>
+The branch now contains a docker-compose.yml file
+- Package the application with <code>mvn clean package</code>. This will make the Dockerfile for the Spring-Bot application.
+- Run <code>docker-compose up</code> to start the containers. The MySQL image will create the database on startup.
+- The Spring-Boot application will also start with the above command, but the logger doesn't seem to be able to connect to the database from inside a docker container.
+- Start the Spring-Boot application in a normal manner: <code>mvn spring-boot:run</code>. This will trigger flyway to create all the required tables and the application should work.
