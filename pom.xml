@@ -117,12 +117,19 @@
 					<imageName>ex-backend</imageName>
 					<baseImage>java</baseImage>
 					<exposes>8080</exposes>
-					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					<cmd>["mkdir", "/upload"]</cmd>
+					<entryPoint>/wait.sh</entryPoint>
+					<!--<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>-->
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
 							<directory>${project.build.directory}</directory>
 							<include>${project.build.finalName}.jar</include>
+						</resource>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>./</directory>
+							<include>wait.sh</include>
 						</resource>
 					</resources>
 				</configuration>

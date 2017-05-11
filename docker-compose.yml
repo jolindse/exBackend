@@ -1,6 +1,14 @@
 version: "2"
+networks:
+  vpc:
+    driver: bridge
+
 services:
   mysql:
+    networks:
+      vpc:
+        aliases:
+          - "localhost"
     container_name: "mysql"
     image: mysql:5.7
     ports:
@@ -10,11 +18,17 @@ services:
       - MYSQL_DATABASE=kanban
 
   rest:
+    networks:
+      vpc:
+        aliases:
+         - "localhost"
     container_name: "rest-handler"
-    build: ./target/docker
+    build:
+      context: ./target/docker
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     depends_on:
       - "mysql"
     links:
-      - "mysql"
+      - "mysql:localhost"

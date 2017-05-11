@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class NoteService {
 
-    private Logger logger = LoggerFactory.getLogger("kanban-logger");
+//    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
     @Autowired
     private NoteRepository noteRepo;
@@ -72,7 +72,7 @@ public class NoteService {
             noteToCreate.addNoteData(noteObj);
             return saveNote(noteToCreate, notable);
         } catch (IOException e) {
-            logger.error(String.format("File upload error - %s", e.getMessage()));
+//            logger.error(String.format("File upload error - %s", e.getMessage()));
         }
         return null;
     }
