@@ -15,7 +15,7 @@ public abstract class Notable {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Note> notes;
 
     public Notable() {
@@ -36,5 +36,13 @@ public abstract class Notable {
 
     public int getId() {
         return this.id;
+    }
+
+    public void addNote(Note note) {
+        notes.add(note);
+    }
+
+    public void deleteNote(Note note) {
+        notes.remove(note);
     }
 }

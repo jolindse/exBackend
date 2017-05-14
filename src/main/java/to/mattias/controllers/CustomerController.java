@@ -26,7 +26,7 @@ public class CustomerController {
         return service.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{customerId}", method = RequestMethod.GET)
     public Customer findOne(@PathVariable int customerId) {
         return service.findById(customerId);
     }
@@ -38,7 +38,7 @@ public class CustomerController {
     }
 
     @DeleteMapping
-    @RequestMapping(value = "{customerId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{customerId}", method = RequestMethod.DELETE)
     @PreAuthorize("@securityService.hasRole('ADMIN')")
     public void deleteCustomer(@PathVariable int customerId) {
         service.delete(customerId);

@@ -10,6 +10,5 @@ import java.util.List;
  * <h1>Created by Mattias on 2017-01-23.</h1>
  */
 public interface NoteRepository extends JpaRepository<Note, Integer> {
-    List<Note> findByNoteAssignedToIn(Notable notable);
 
 }

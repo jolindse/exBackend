@@ -1,6 +1,5 @@
 package to.mattias.entities;
 
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
@@ -161,5 +160,17 @@ public class Project extends Notable{
         result = 31 * result + (getProjectTasks() != null ? getProjectTasks().hashCode() : 0);
         result = 31 * result + (getProjectUsers() != null ? getProjectUsers().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectTitle='" + projectTitle + '\'' +
+                ", projectDescription='" + projectDescription + '\'' +
+                ", projectCustomer=" + projectCustomer +
+                ", projectSprints=" + projectSprints +
+                ", projectTasks=" + projectTasks +
+                ", projectUsers=" + projectUsers +
+                '}';
     }
 }

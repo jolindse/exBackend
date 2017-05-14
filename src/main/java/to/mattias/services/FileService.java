@@ -1,7 +1,5 @@
 package to.mattias.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,6 @@ import java.io.*;
 @Service
 public class FileService {
 
-    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
     private NoteType type;
 
@@ -43,7 +40,7 @@ public class FileService {
     }
 
 
-    public NoteObj store(int projectId, MultipartFile file) {
+    public NoteObj store(int notableId, MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
 
         // Set a unique filename for the file to be stored
@@ -54,35 +51,34 @@ public class FileService {
                 originalFilename.lastIndexOf("."), originalFilename.length());
 
         // Sets the path where to store the file
-        String filePath = String.format("%s%s/%s/%s%s", uploadBaseDir, projectId, getFileType(fileSuffix), filename, fileSuffix);
+        String filePath = String.format("%s%s/%s/%s%s", uploadBaseDir, notableId, getFileType(fileSuffix), filename, fileSuffix);
 
         // Gets the path to the file to be stored
         String path = filePath.substring(0, filePath.lastIndexOf("/"));
 
         // Store the file if the path exists, otherwise create the dirs
         if(new File(path).exists()) {
-           return storeFile(file, filePath, projectId, fileSuffix, filename);
+           return storeFile(file, filePath, notableId, fileSuffix, filename);
         } else {
             new File(path).mkdirs();
-            return storeFile(file, filePath, projectId, fileSuffix, filename);
+            return storeFile(file, filePath, notableId, fileSuffix, filename);
         }
     }
 
     /**
      * Stores the uploaded file to disk
-     * @param file
-     * @param filePath
-     * @param projectId
-     * @param fileSuffix
-     * @param filename
+     * @param file The uploaded file to store
+     * @param filePath Where to store the file
+     * @param projectId Id of project that the file belongs to
+     * @param fileSuffix The ending of the file
+     * @param filename The name of the file
      * @return The newly created NoteObject
      */
     private NoteObj storeFile(MultipartFile file, String filePath,
-                              int projectId, String fileSuffix, String filename) {
+                              int projectId, String fileSuffix, String filename) throws IOException {
 
         // Check if the uploaded file is empty, if not store it
         if (!file.isEmpty()) {
-            try {
                 file.transferTo(new File(filePath));
                 NoteObj noteObj = new NoteObj();
                 noteObj.setNoteType(type);
@@ -90,13 +86,8 @@ public class FileService {
                         String.format("/assets/%d/%s%s%s", projectId,
                                 getFileType(fileSuffix), filename, fileSuffix));
                 return noteObjService.save(noteObj);
-            } catch (IOException e) {
-                logger.error("Failed to store file on disk");
-                return null;
-            }
         } else {
-            logger.error("Failed to store file - File is empty");
-            return null;
+            throw new IOException();
         }
     }
 

@@ -11,6 +11,7 @@ import to.mattias.constants.NoteType;
 import to.mattias.entities.Note;
 import to.mattias.entities.NoteObj;
 import to.mattias.entities.User;
+import to.mattias.repositories.NotableRepository;
 import to.mattias.services.NoteObjService;
 import to.mattias.services.NoteService;
 import to.mattias.services.UserService;
@@ -37,6 +38,7 @@ public class NoteTest {
     UserService userService;
     @Autowired
     NoteObjService noteObjService;
+
 
     private Note defaultNote;
     private int noteId;
@@ -70,7 +72,7 @@ public class NoteTest {
     }
 
     @Test
-    public void testToAddANotableToANote() {
+    public void testToAddANoteToNotable() {
         // Create a NoteObject
         NoteObj noteObject = new NoteObj();
         noteObject.setNoteType(NoteType.HTTP_URL);
@@ -84,12 +86,14 @@ public class NoteTest {
         user2.setUsername("Johan");
 
         defaultNote.addNoteData(noteObject);
-        defaultNote.addNoteAssignee(user);
-        defaultNote.addNoteAssignee(user2);
-
-        // Save the note and assert that it contains 2 assigned users
         noteService.save(defaultNote);
-        assertTrue("The Note should contain 2 assignees", noteService.findById(noteId).getNoteAssignedTo().size() == 2);
+
+        user.addNote(defaultNote);
+
+        // Save the user and assert that it contains a note
+        User currUser = userService.saveUser(user);
+        assertTrue("The User should contain 1 note",
+                userService.findById(currUser.getId()).getNotes().size() == 1);
     }
 
     @Test
@@ -107,34 +111,6 @@ public class NoteTest {
         assertTrue("Couldn't change notetype", returnedNoteObject.getNoteType().equals(NoteType.FILE_URL));
     }
 
-    @Test
-    public void testToRetrieveAllNotesAssignedToOneNotable() {
-        User user = new User();
-        user.setUserFirstName("Mattias");
-        userService.saveUser(user);
-
-        defaultNote.addNoteAssignee(user);
-        NoteObj firstNoteObj = new NoteObj();
-        firstNoteObj.setNoteType(NoteType.COMMENT);
-        firstNoteObj.setNoteObjContent("This is a comment");
-        defaultNote.addNoteData(firstNoteObj);
-        noteService.save(defaultNote);
-
-        Note secondNote = new Note();
-        NoteObj secondNoteObj = new NoteObj();
-        secondNoteObj.setNoteType(NoteType.HTTP_URL);
-        secondNoteObj.setNoteObjContent("This is a http url");
-        secondNote.addNoteData(secondNoteObj);
-        secondNote.addNoteAssignee(user);
-        noteService.save(secondNote);
-
-        Note thirdNote = new Note();
-        noteService.save(thirdNote);
-
-        int listSize = noteService.findByNotable(user).size();
-
-        assertTrue("Notes assigned to user should be 2. It is " + listSize, listSize == 2);
-    }
 
     @Test
     public void testToUpdateNoteObject() {
@@ -161,26 +137,9 @@ public class NoteTest {
         assertTrue("Note still persisted", noteService.findAll().size() == 0);
     }
 
-    @Test
-    public void testToDeleteANoteWithUserAssigned() {
-        User user = new User();
-        int userId = userService.saveUser(user).getId();
-
-        defaultNote.addNoteAssignee(user);
-        noteService.save(defaultNote);
-
-        noteService.delete(noteId);
-
-        // Check wether the user is deleted
-        assertTrue("User deleted together with the note", userService.findAll().contains(user));
-        // Check wether the note still exists in db
-        assertTrue("Note still persisted", noteService.findAll().size() == 0);
-        // Assert that the user's notelist is empty
-        assertTrue("User still has notes", userService.findById(userId).getNotes().isEmpty());
-    }
 
     @Test
-    public void testTodeleteANoteWithNoteData() {
+    public void testToDeleteANoteWithNoteData() {
         NoteObj noteObj = new NoteObj();
         noteObj.setNoteType(NoteType.COMMENT);
 
@@ -208,8 +167,9 @@ public class NoteTest {
         // Delete the noteObj and assert that the note still exists
         noteObjService.delete(noteObjId);
         assertTrue("The note is also deleted", noteService.findById(noteId).equals(defaultNote));
-
     }
+
+
 
 
 }
