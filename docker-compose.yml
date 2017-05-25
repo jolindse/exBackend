@@ -1,34 +1,24 @@
-version: "2"
-networks:
-  vpc:
-    driver: bridge
+version: "2.1"
 
 services:
-  mysql:
-    networks:
-      vpc:
-        aliases:
-          - "localhost"
-    container_name: "mysql"
+  mysql-kanban:
     image: mysql:5.7
-    ports:
-      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=kanban
       - MYSQL_DATABASE=kanban
-
-  rest:
-    networks:
-      vpc:
-        aliases:
-         - "localhost"
-    container_name: "rest-handler"
-    build:
-      context: ./target/docker
-      dockerfile: Dockerfile
+      - MYSQL_USER=kanban
+      - MYSQL_PASSWORD=kanban
+  exbackend:
+    image: exbackend
+    depends_on:
+      - mysql-kanban
     ports:
       - 8080:8080
-    depends_on:
-      - "mysql"
     links:
-      - "mysql:localhost"
+      - mysql-kanban
+    environment:
+      - DATABASE_HOST=mysql-kanban
+      - DATABASE_USER=kanban
+      - DATABASE_PASSWORD=kanban
+      - DATABASE_NAME=kanban
+      - DATABASE_PORT=3306
