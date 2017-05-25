@@ -16,7 +16,7 @@ import to.mattias.security.jwt.AuthenticatedUser;
 @Service
 public class UserDetailService implements UserDetailsService {
 
-    private Logger logger = LoggerFactory.getLogger("kanban-logger");
+//    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
 
     @Autowired
@@ -26,7 +26,7 @@ public class UserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = this.userService.findByUserName(s);
         if (user == null) {
-            logger.error(String.format("Failed to login - Username %s not found", s));
+//            logger.error(String.format("Failed to login - Username %s not found", s));
             throw new UsernameNotFoundException(s + " not found.");
         } else {
             return new AuthenticatedUser(user);

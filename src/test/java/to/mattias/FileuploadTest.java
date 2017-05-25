@@ -2,6 +2,7 @@ package to.mattias;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 /**
  * <h1>Created by Mattias on 2017-03-01.</h1>
  */
+
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 //@TestPropertySource("classpath:application-test.properties")
 @ContextConfiguration(classes = {ExBackendApplication.class})

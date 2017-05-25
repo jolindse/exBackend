@@ -1,6 +1,7 @@
 package to.mattias;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * <h1>Created by Mattias on 2017-01-30.</h1>
  */
+
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")

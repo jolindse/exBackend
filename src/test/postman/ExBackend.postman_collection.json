@@ -1,0 +1,199 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ExBackend",
+		"_postman_id": "37dfc24e-5cf6-ac47-9f04-4a761d332db9",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"description": "Requests for the customer endpoints",
+			"item": [
+				{
+					"name": "Get all customers",
+					"request": {
+						"url": "localhost:8080/customer",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\":\"user1\", \"password\":\"password\"}"
+						},
+						"description": "Enter the token in Authorization-header"
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific customer",
+					"request": {
+						"url": "localhost:8080/customer/{id}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\":\"user1\", \"password\":\"password\"}"
+						},
+						"description": "Enter the token in Authorization-header.\nEnter the {id} of the customer in the url"
+					},
+					"response": []
+				},
+				{
+					"name": "Post new customer",
+					"request": {
+						"url": "localhost:8080/customer/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"customerName\": \"Customer\"\n}"
+						},
+						"description": "Enter the token in Authorization-header."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete specific Customer",
+					"request": {
+						"url": "localhost:8080/customer/{customerId}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Enter the token in Authorization-header."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"url": "localhost:8080/customer",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImV4cCI6MTQ5NDA2NzEyMX0.ElbpiOoIRbNMGIFRxJ-OLmvSjsqddK6sgjRiIW5Lk59KU1vFOpS9oTWdygoC_T6NQ5FIwVW_0A-T9sAyam2HGw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 12,\n    \"notes\": [],\n    \"customerName\": \"Felia\"\n  }"
+						},
+						"description": "Enter the token in Authorization-header\nThe body takes a complete Customer object"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Note",
+			"description": "",
+			"item": []
+		},
+		{
+			"name": "localhost:8080/data/initdata",
+			"request": {
+				"url": "localhost:8080/data/initdata",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "//Authorization",
+						"value": "",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"user1\", \"password\":\"password\"}"
+				},
+				"description": "Fill the database with some data"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"url": "localhost:8080/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "//Authorization",
+						"value": "",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"user1\", \"password\":\"password\"}"
+				},
+				"description": "Perform a login. Copy the token you get in the response and add that to the Authorization header in future requests"
+			},
+			"response": []
+		}
+	]
+}
