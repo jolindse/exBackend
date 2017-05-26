@@ -1,5 +1,13 @@
 # exBackend
 
+## Branch Master
+<strong>Updated 2017-05-26</strong><br>
+- Docker with working network setup merged.
+- To build: <code>mvn clean package docker:build</code>. Then <code>docker-compose up</code>.
+- Reenabled console logging.
+- Removed SQL logging and tables.
+- Deleted old redundant branches.
+
 ## Branch Docker
 
 <strong>Updated 2017-05-09</strong><br>
