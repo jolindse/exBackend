@@ -22,7 +22,7 @@ import java.io.IOException;
 @Component
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
-//    private Logger logger = LoggerFactory.getLogger("kanban-logger");
+    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
     @Autowired
     private TokenAuthenticationService tokenAuthenticationService;
@@ -35,8 +35,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request,response);
         } catch (IOException | ServletException | ExpiredJwtException e) {
-            e.printStackTrace();
-//            logger.error(String.format("Error - %s", e.getMessage()));
+            logger.error(String.format("Error - %s", e.getMessage()));
         }
     }
 }

@@ -25,6 +25,9 @@ upload:
       dir: images/
     file:
       dir: documents/
+logging:
+  config: classpath:logback-spring.xml
+
 
 ---
 

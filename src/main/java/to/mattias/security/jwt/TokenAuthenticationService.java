@@ -27,7 +27,7 @@ public class TokenAuthenticationService {
     private String tokenPrefix = "Bearer";
     private String headerString = "Authorization";
 
-//    private Logger logger = LoggerFactory.getLogger("kanban-logger");
+    private Logger logger = LoggerFactory.getLogger("kanban-logger");
 
     @Autowired
     private UserService userService;
@@ -45,7 +45,7 @@ public class TokenAuthenticationService {
             ObjectMapper om = new ObjectMapper();
             response.getWriter().write(om.writeValueAsString(login));
         } catch (IOException e) {
-//            logger.error(String.format("Login Error - %s", e.getMessage()));
+            logger.error(String.format("Login Error - %s", e.getMessage()));
         }
     }
 
