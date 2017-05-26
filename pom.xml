@@ -60,11 +60,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<!-- SECURITY -->
 		<dependency>
@@ -110,12 +105,6 @@
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>4.2.0</version>
-				<configuration>
-					<user>root</user>
-					<password>kanban</password>
-					<url>jdbc:mysql://localhost:3306</url>
-					<schemas>kanban</schemas>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.spotify</groupId>
