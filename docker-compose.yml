@@ -8,6 +8,8 @@ services:
       - MYSQL_DATABASE=kanban
       - MYSQL_USER=kanban
       - MYSQL_PASSWORD=kanban
+    ports:
+    - 3306:3306
   exbackend:
     image: exbackend
     depends_on:
