@@ -81,6 +81,7 @@ public class DataController {
         project.setProjectDescription("Description for Project 1");
 
         Sprint sprint1 = new Sprint();
+        sprint1.setSprintTitle("Sprint 1 - Title");
         project.addSprint(sprint1);
 
         Task task1 = new Task();
@@ -148,6 +149,7 @@ public class DataController {
         project.setProjectDescription("Description for Project 2");
 
         Sprint sprint2 = new Sprint();
+        sprint2.setSprintTitle("Sprint 2 - Title");
         project.addSprint(sprint2);
 
         Task task9 = new Task();
