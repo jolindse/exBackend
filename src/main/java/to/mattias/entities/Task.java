@@ -83,10 +83,12 @@ public class Task extends Notable {
     }
 
     public void setTaskStartDate(String dateString) {
-        try {
-            this.taskStartDate = sdf.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (dateString != null) {
+            try {
+                this.taskStartDate = sdf.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -95,10 +97,12 @@ public class Task extends Notable {
     }
 
     public void setTaskEndDate(String dateString) {
-        try {
-            this.taskEndDate = sdf.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (dateString != null) {
+            try {
+                this.taskEndDate = sdf.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
